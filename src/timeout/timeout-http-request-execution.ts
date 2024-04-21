@@ -1,4 +1,4 @@
-export function timeoutHttpRequest(
+export function timeoutHttpRequestExecution(
   promise: Promise<any>,
   timeout: number
 ): Promise<any> {
