@@ -5,7 +5,7 @@ describe("timeout", () => {
     //Arrange
     const timeoutPolicyExecutor =
       PolicyExecutorFactory.createTimeoutHttpExecutor({
-        timeout: 200,
+        timeoutSeconds: 0.2,
       });
 
     const httpRequest = () =>
@@ -31,7 +31,7 @@ describe("timeout", () => {
     //Arrange
     const timeoutPolicyExecutor =
       PolicyExecutorFactory.createTimeoutHttpExecutor({
-        timeout: 500,
+        timeoutSeconds: 0.5,
       });
 
     const httpRequest = () =>

@@ -48,7 +48,7 @@ describe("retry backoff strategy", () => {
     expect(backoffTimeSecondTry - backoffTimeFirstTry).toBe(linearIncrement);
   });
 
-  test("linear with exponential", async () => {
+  test("linear with jitter", async () => {
     //Arrange
     const minimumLinearIncrement = 9;
     const maximumLinearIncrement = 11;
@@ -101,10 +101,10 @@ describe("retry backoff strategy", () => {
     );
   });
 
-  test("exponential with exponential", async () => {
+  test("exponential with jitter", async () => {
     //Arrange
     const minimumFirstTryBackoff = Math.pow(2, 1);
-    const minimumFirstSecondBackoff = Math.pow(2, 2);
+    const minimumSecondTryBackoff = Math.pow(2, 2);
 
     //Act
     const backoffTimeFirstTry = computeRetryBackoffForStrategyInSeconds(
@@ -119,9 +119,12 @@ describe("retry backoff strategy", () => {
 
     //Assert
     expect(backoffTimeFirstTry).toBeGreaterThan(minimumFirstTryBackoff);
-    expect(backoffTimeSecondTry).toBeGreaterThan(minimumFirstSecondBackoff);
+    expect(backoffTimeSecondTry).toBeGreaterThan(minimumSecondTryBackoff);
     expect(backoffTimeSecondTry - backoffTimeFirstTry).toBeGreaterThan(
-      minimumFirstSecondBackoff - minimumFirstTryBackoff
+      minimumSecondTryBackoff - minimumFirstTryBackoff - 1
+    );
+    expect(backoffTimeSecondTry - backoffTimeFirstTry).toBeLessThan(
+      minimumSecondTryBackoff - minimumFirstTryBackoff + 1
     );
   });
 });

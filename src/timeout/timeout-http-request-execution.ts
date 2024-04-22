@@ -1,6 +1,6 @@
 export function timeoutHttpRequestExecution(
   promise: Promise<any>,
-  timeout: number
+  timeoutSeconds: number
 ): Promise<any> {
   return Promise.race([
     promise,
@@ -8,9 +8,9 @@ export function timeoutHttpRequestExecution(
       setTimeout(
         () =>
           rejection(
-            `A timeout has occured. Timeout defined: ${timeout / 1000} seconds.`
+            `A timeout has occured. Timeout defined: ${timeoutSeconds} seconds.`
           ),
-        timeout
+        timeoutSeconds * 1000
       )
     ),
   ]);

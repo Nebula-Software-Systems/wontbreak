@@ -1,3 +1,3 @@
 export type TimeoutPolicyType = {
-  timeout: number;
+  timeoutSeconds: number;
 };
