@@ -2,6 +2,7 @@ import { IPolicyExecutor } from "../@common/policy-executor-interface";
 import { Result } from "../@common/result";
 import { RetryPolicyType } from "./retry-policy-type";
 import { retryHttpRequestExecutionAsync } from "./retry-http-request-execution";
+import { timeoutHttpRequestExecution } from "../timeout/timeout-http-request-execution";
 
 export class RetryPolicyExecutor implements IPolicyExecutor {
   private retryPolicy: RetryPolicyType;
@@ -13,7 +14,12 @@ export class RetryPolicyExecutor implements IPolicyExecutor {
   async ExecutePolicyAsync<T>(httpRequest: Promise<any>): Promise<Result<T>> {
     try {
       const result = await retryHttpRequestExecutionAsync(
-        httpRequest,
+        this.retryPolicy.timeoutPerRetrySeconds === undefined
+          ? httpRequest
+          : timeoutHttpRequestExecution(
+              httpRequest,
+              this.retryPolicy.timeoutPerRetrySeconds
+            ),
         this.retryPolicy
       );
       return Result.createSuccessHttpResult<T>(result);
