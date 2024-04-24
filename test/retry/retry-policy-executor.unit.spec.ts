@@ -1,12 +1,12 @@
 import { PolicyExecutorFactory } from "../../src/@common/policy-executor-factory";
-import { RetryInterval } from "../../src/retry/retry-interval-options";
+import { RetryIntervalStrategy } from "../../src/retry/models/retry-interval-options";
 describe("retry with constant backoff", () => {
   test("error thrown when number of retries exceeds", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Constant,
-      baseSeconds: 0.2,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Constant,
+      baseRetryDelayInSeconds: 0.2,
     });
 
     const httpRequest = () => {
@@ -33,9 +33,9 @@ describe("retry with constant backoff", () => {
 
   test("http request completes successfully when no retries occur", async () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Constant,
-      baseSeconds: 0.2,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Constant,
+      baseRetryDelayInSeconds: 0.2,
     });
 
     const httpRequest = () => {
@@ -61,10 +61,10 @@ describe("retry with constant backoff with timeout on retry", () => {
   test("error thrown when timeout occurs on retry", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Constant,
-      baseSeconds: 0.2,
-      timeoutPerRetrySeconds: 0.3,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Constant,
+      baseRetryDelayInSeconds: 0.2,
+      timeoutPerRetryInSeconds: 0.3,
     });
 
     const httpRequest = () => {
@@ -91,10 +91,10 @@ describe("retry with constant backoff with timeout on retry", () => {
 
   test("http request completes successfully when no retries occur nor timeouts", async () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Constant,
-      baseSeconds: 0.2,
-      timeoutPerRetrySeconds: 0.4,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Constant,
+      baseRetryDelayInSeconds: 0.2,
+      timeoutPerRetryInSeconds: 0.4,
     });
 
     const httpRequest = () => {
@@ -120,8 +120,8 @@ describe("retry with linear backoff", () => {
   test("error thrown when number of retries exceeds", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Linear,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Linear,
     });
 
     const httpRequest = () => {
@@ -148,9 +148,9 @@ describe("retry with linear backoff", () => {
 
   test("http request completes successfully when no retries occur", async () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Linear,
-      baseSeconds: 0.2,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Linear,
+      baseRetryDelayInSeconds: 0.2,
     });
 
     const httpRequest = () => {
@@ -176,9 +176,9 @@ describe("retry with linear backoff with timeout on retry", () => {
   test("error thrown when timeout on retry occurs", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Linear,
-      timeoutPerRetrySeconds: 0.3,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Linear,
+      timeoutPerRetryInSeconds: 0.3,
     });
 
     const httpRequest = () => {
@@ -205,10 +205,10 @@ describe("retry with linear backoff with timeout on retry", () => {
 
   test("http request completes successfully when no timeouts on retries occurs", async () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Linear,
-      baseSeconds: 0.2,
-      timeoutPerRetrySeconds: 1,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Linear,
+      baseRetryDelayInSeconds: 0.2,
+      timeoutPerRetryInSeconds: 1,
     });
 
     const httpRequest = () => {
@@ -234,9 +234,9 @@ describe("retry with linear and jitter backoff", () => {
   test("error thrown when number of retries exceeds", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Linear_With_Jitter,
-      baseSeconds: 0.2,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Linear_With_Jitter,
+      baseRetryDelayInSeconds: 0.2,
     });
 
     const httpRequest = () => {
@@ -263,9 +263,9 @@ describe("retry with linear and jitter backoff", () => {
 
   test("http request completes successfully when no retries occurs", async () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Linear_With_Jitter,
-      baseSeconds: 0.4,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Linear_With_Jitter,
+      baseRetryDelayInSeconds: 0.4,
     });
 
     const httpRequest = () => {
@@ -291,10 +291,10 @@ describe("retry with linear and jitter backoff with timeout on retry", () => {
   test("error thrown when timeout on retries occurs", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Linear_With_Jitter,
-      baseSeconds: 0.2,
-      timeoutPerRetrySeconds: 0.3,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Linear_With_Jitter,
+      baseRetryDelayInSeconds: 0.2,
+      timeoutPerRetryInSeconds: 0.3,
     });
 
     const httpRequest = () => {
@@ -321,10 +321,10 @@ describe("retry with linear and jitter backoff with timeout on retry", () => {
 
   test("http request completes successfully when no timeout on retries occurs", async () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Linear_With_Jitter,
-      baseSeconds: 0.4,
-      timeoutPerRetrySeconds: 1,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Linear_With_Jitter,
+      baseRetryDelayInSeconds: 0.4,
+      timeoutPerRetryInSeconds: 1,
     });
 
     const httpRequest = () => {
@@ -350,8 +350,8 @@ describe("retry with exponential backoff", () => {
   test("error thrown when number of retries exceeds", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Exponential,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Exponential,
     });
 
     const httpRequest = () => {
@@ -378,8 +378,8 @@ describe("retry with exponential backoff", () => {
 
   test("http request completes successfully when no retries occurs", async () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Exponential,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Exponential,
     });
 
     const httpRequest = () => {
@@ -405,9 +405,9 @@ describe("retry with exponential backoff with timeout on retry", () => {
   test("error thrown when timeout on retries occurs", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Exponential,
-      timeoutPerRetrySeconds: 0.3,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Exponential,
+      timeoutPerRetryInSeconds: 0.3,
     });
 
     const httpRequest = () => {
@@ -434,9 +434,9 @@ describe("retry with exponential backoff with timeout on retry", () => {
 
   test("http request completes successfully when no timeout on retries occurs", async () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Exponential,
-      timeoutPerRetrySeconds: 1,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Exponential,
+      timeoutPerRetryInSeconds: 1,
     });
 
     const httpRequest = () => {
@@ -462,8 +462,8 @@ describe("retry with exponential jitter backoff", () => {
   test("error thrown when number of retries exceeds", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Exponential_With_Jitter,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Exponential_With_Jitter,
     });
 
     const httpRequest = () => {
@@ -490,8 +490,8 @@ describe("retry with exponential jitter backoff", () => {
 
   test("http request completes successfully when no retries occurs", async () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Exponential_With_Jitter,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Exponential_With_Jitter,
     });
 
     const httpRequest = () => {
@@ -517,9 +517,9 @@ describe("retry with exponential jitter backoff and timeout", () => {
   test("error thrown when timeout on retries occurs", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Exponential_With_Jitter,
-      timeoutPerRetrySeconds: 0.3,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Exponential_With_Jitter,
+      timeoutPerRetryInSeconds: 0.3,
     });
 
     const httpRequest = () => {
@@ -546,8 +546,8 @@ describe("retry with exponential jitter backoff and timeout", () => {
 
   test("http request completes successfully when no timeout on retries occurs", async () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberRetries: 3,
-      retryIntervalStrategy: RetryInterval.Exponential_With_Jitter,
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Exponential_With_Jitter,
     });
 
     const httpRequest = () => {

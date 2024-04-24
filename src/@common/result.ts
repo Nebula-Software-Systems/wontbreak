@@ -1,15 +1,15 @@
-import { RetryError } from "../retry/retry-error";
+import { RetryError } from "../retry/models/retry-error";
 import { TimeoutError } from "../timeout/models/timeout-error";
 import { BaseError } from "./base-error";
 
 export class Result<T> {
-  constructor(public data?: any, public error?: any) {
+  private constructor(public data?: any, public error: any = null) {
     this.data = data;
     this.error = error;
   }
 
   static createSuccessHttpResult<T>(httpResponse: T) {
-    return new Result(httpResponse, null);
+    return new Result(httpResponse);
   }
 
   static createTimedOutErrorResult(timeoutErrorMessage: string) {

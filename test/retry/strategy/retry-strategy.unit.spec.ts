@@ -1,4 +1,4 @@
-import { RetryInterval } from "../../../src/retry/retry-interval-options";
+import { RetryIntervalStrategy } from "../../../src/retry/models/retry-interval-options";
 import { computeRetryBackoffForStrategyInSeconds } from "../../../src/retry/strategy/retry-backoff-strategy";
 
 describe("retry backoff strategy", () => {
@@ -8,13 +8,13 @@ describe("retry backoff strategy", () => {
 
     //Act
     const backoffTimeFirstTry = computeRetryBackoffForStrategyInSeconds(
-      RetryInterval.Constant,
+      RetryIntervalStrategy.Constant,
       1,
       10
     );
 
     const backoffTimeSecondTry = computeRetryBackoffForStrategyInSeconds(
-      RetryInterval.Constant,
+      RetryIntervalStrategy.Constant,
       2,
       10
     );
@@ -31,13 +31,13 @@ describe("retry backoff strategy", () => {
 
     //Act
     const backoffTimeFirstTry = computeRetryBackoffForStrategyInSeconds(
-      RetryInterval.Linear,
+      RetryIntervalStrategy.Linear,
       1,
       10
     );
 
     const backoffTimeSecondTry = computeRetryBackoffForStrategyInSeconds(
-      RetryInterval.Linear,
+      RetryIntervalStrategy.Linear,
       2,
       10
     );
@@ -55,13 +55,13 @@ describe("retry backoff strategy", () => {
 
     //Act
     const backoffTimeFirstTry = computeRetryBackoffForStrategyInSeconds(
-      RetryInterval.Linear_With_Jitter,
+      RetryIntervalStrategy.Linear_With_Jitter,
       1,
       10
     );
 
     const backoffTimeSecondTry = computeRetryBackoffForStrategyInSeconds(
-      RetryInterval.Linear_With_Jitter,
+      RetryIntervalStrategy.Linear_With_Jitter,
       2,
       10
     );
@@ -84,12 +84,12 @@ describe("retry backoff strategy", () => {
 
     //Act
     const backoffTimeFirstTry = computeRetryBackoffForStrategyInSeconds(
-      RetryInterval.Exponential,
+      RetryIntervalStrategy.Exponential,
       1
     );
 
     const backoffTimeSecondTry = computeRetryBackoffForStrategyInSeconds(
-      RetryInterval.Exponential,
+      RetryIntervalStrategy.Exponential,
       2
     );
 
@@ -108,12 +108,12 @@ describe("retry backoff strategy", () => {
 
     //Act
     const backoffTimeFirstTry = computeRetryBackoffForStrategyInSeconds(
-      RetryInterval.Exponential_With_Jitter,
+      RetryIntervalStrategy.Exponential_With_Jitter,
       1
     );
 
     const backoffTimeSecondTry = computeRetryBackoffForStrategyInSeconds(
-      RetryInterval.Exponential_With_Jitter,
+      RetryIntervalStrategy.Exponential_With_Jitter,
       2
     );
 

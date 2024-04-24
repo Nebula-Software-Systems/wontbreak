@@ -1,24 +1,24 @@
-import { RetryInterval } from "../retry-interval-options";
+import { RetryIntervalStrategy } from "../models/retry-interval-options";
 
 export function computeRetryBackoffForStrategyInSeconds(
-  retryStrategy: RetryInterval,
+  retryStrategy: RetryIntervalStrategy,
   nextRetryAttempt: number,
   baseSeconds: number = 1
 ) {
   switch (retryStrategy) {
-    case RetryInterval.Constant: {
+    case RetryIntervalStrategy.Constant: {
       return baseSeconds;
     }
-    case RetryInterval.Linear: {
+    case RetryIntervalStrategy.Linear: {
       return baseSeconds * nextRetryAttempt;
     }
-    case RetryInterval.Exponential: {
+    case RetryIntervalStrategy.Exponential: {
       return Math.pow(2, nextRetryAttempt);
     }
-    case RetryInterval.Exponential_With_Jitter: {
+    case RetryIntervalStrategy.Exponential_With_Jitter: {
       return Math.pow(2, nextRetryAttempt) + Math.random();
     }
-    case RetryInterval.Linear_With_Jitter:
+    case RetryIntervalStrategy.Linear_With_Jitter:
     default: {
       return baseSeconds * nextRetryAttempt + Math.random();
     }

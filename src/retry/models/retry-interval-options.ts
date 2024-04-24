@@ -1,4 +1,4 @@
-export enum RetryInterval {
+export enum RetryIntervalStrategy {
   Constant,
   Linear,
   Linear_With_Jitter,
