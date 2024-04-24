@@ -1,5 +1,5 @@
 import { RetryError } from "../retry/retry-error";
-import { TimeoutError } from "../timeout/timeout-error";
+import { TimeoutError } from "../timeout/models/timeout-error";
 import { BaseError } from "./base-error";
 
 export class Result<T> {

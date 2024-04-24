@@ -1,7 +1,7 @@
-import { TimeoutPolicyType } from "./timeout-policy-type";
-import { IPolicyExecutor } from "../@common/policy-executor-interface";
-import { timeoutHttpRequestExecution } from "./timeout-http-request-execution";
-import { Result } from "../@common/result";
+import { TimeoutPolicyType } from "../models/timeout-policy-type";
+import { IPolicyExecutor } from "../../@common/policy-executor-interface";
+import { executeHttpRequestWithTimeoutPolicy } from "./timeout-http-request-execution";
+import { Result } from "../../@common/result";
 
 export class TimeoutPolicyExecutor implements IPolicyExecutor {
   private constructor(private timeoutPolicy: TimeoutPolicyType) {
@@ -10,9 +10,9 @@ export class TimeoutPolicyExecutor implements IPolicyExecutor {
 
   async ExecutePolicyAsync<T>(httpRequest: Promise<any>): Promise<Result<T>> {
     try {
-      const result = await timeoutHttpRequestExecution(
+      const result = await executeHttpRequestWithTimeoutPolicy(
         httpRequest,
-        this.timeoutPolicy.timeoutSeconds
+        this.timeoutPolicy.timeoutInSeconds
       );
       return Result.createSuccessHttpResult<T>(result);
     } catch (error) {
