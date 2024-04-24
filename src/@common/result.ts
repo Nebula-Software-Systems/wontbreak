@@ -3,10 +3,7 @@ import { TimeoutError } from "../timeout/timeout-error";
 import { BaseError } from "./base-error";
 
 export class Result<T> {
-  data?: any;
-  error?: BaseError;
-
-  constructor(data?: any, error?: any) {
+  constructor(public data?: any, public error?: any) {
     this.data = data;
     this.error = error;
   }

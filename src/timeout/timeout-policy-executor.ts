@@ -4,9 +4,7 @@ import { timeoutHttpRequestExecution } from "./timeout-http-request-execution";
 import { Result } from "../@common/result";
 
 export class TimeoutPolicyExecutor implements IPolicyExecutor {
-  private timeoutPolicy: TimeoutPolicyType;
-
-  private constructor(timeoutPolicy: TimeoutPolicyType) {
+  private constructor(private timeoutPolicy: TimeoutPolicyType) {
     this.timeoutPolicy = timeoutPolicy;
   }
 

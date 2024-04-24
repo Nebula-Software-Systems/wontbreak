@@ -5,9 +5,7 @@ import { retryHttpRequestExecutionAsync } from "./retry-http-request-execution";
 import { timeoutHttpRequestExecution } from "../timeout/timeout-http-request-execution";
 
 export class RetryPolicyExecutor implements IPolicyExecutor {
-  private retryPolicy: RetryPolicyType;
-
-  private constructor(retryPolicy: RetryPolicyType) {
+  private constructor(private retryPolicy: RetryPolicyType) {
     this.retryPolicy = retryPolicy;
   }
 
