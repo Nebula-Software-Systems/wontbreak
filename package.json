@@ -125,7 +125,7 @@
     "json-parse-even-better-errors": "^2.3.1",
     "json5": "^2.2.3",
     "kleur": "^3.0.3",
-    "leven": "^3.1.0",
+    "leven": "^4.0.0",
     "lines-and-columns": "^1.2.4",
     "locate-path": "^5.0.0",
     "lru-cache": "^5.1.1",
