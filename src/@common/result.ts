@@ -1,8 +1,9 @@
 import { RetryError } from "../retry/models/retry-error";
 import { TimeoutError } from "../timeout/models/timeout-error";
+import { BaseError } from "./base-error";
 
 export class Result<T> {
-  private constructor(public data?: T, public error: any = null) {
+  private constructor(public data?: T, public error?: BaseError) {
     this.data = data;
     this.error = error;
   }

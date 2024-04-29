@@ -5,4 +5,5 @@ export type RetryPolicyType = {
   retryIntervalStrategy?: RetryIntervalStrategy;
   baseRetryDelayInSeconds?: number;
   timeoutPerRetryInSeconds?: number;
+  excludeRetriesOnStatusCodes?: number[];
 };

@@ -3,6 +3,7 @@ import { PolicyExecutorFactory } from "../../src/@common/policy-executor-factory
 import { RetryIntervalStrategy } from "../../src/retry/models/retry-interval-options";
 import { createTimedOutRequest } from "../@common/utils/timeout-request-function";
 import { ComplexObject } from "../@common/models/complex-object";
+import { DefaultRetryExcludedHttpStatusCodes } from "../../src/retry/models/default-retry-excluded-http-status-codes";
 const MockAdapter = require("axios-mock-adapter");
 
 describe("Retry with constant backoff", () => {
@@ -76,7 +77,7 @@ describe("Retry with constant backoff", () => {
         },
       })
     );
-    expect(httpResult.error).toBeNull();
+    expect(httpResult.error).toBeUndefined();
   });
 });
 
@@ -145,7 +146,7 @@ describe("Retry with constant backoff with timeout on retry", () => {
         },
       })
     );
-    expect(httpResult.error).toBeNull();
+    expect(httpResult.error).toBeUndefined();
   });
 });
 
@@ -219,7 +220,7 @@ describe("Retry with linear backoff", () => {
         },
       })
     );
-    expect(httpResult.error).toBeNull();
+    expect(httpResult.error).toBeUndefined();
   });
 });
 
@@ -287,7 +288,7 @@ describe("Retry with linear backoff with timeout on retry", () => {
         },
       })
     );
-    expect(httpResult.error).toBeNull();
+    expect(httpResult.error).toBeUndefined();
   });
 });
 
@@ -361,7 +362,7 @@ describe("Retry with linear and jitter backoff", () => {
         },
       })
     );
-    expect(httpResult.error).toBeNull();
+    expect(httpResult.error).toBeUndefined();
   });
 });
 
@@ -429,7 +430,7 @@ describe("Retry with linear and jitter backoff with timeout on retry", () => {
         },
       })
     );
-    expect(httpResult.error).toBeNull();
+    expect(httpResult.error).toBeUndefined();
   });
 });
 
@@ -501,7 +502,7 @@ describe("Retry with exponential backoff", () => {
         },
       })
     );
-    expect(httpResult.error).toBeNull();
+    expect(httpResult.error).toBeUndefined();
   });
 });
 
@@ -567,7 +568,7 @@ describe("Retry with exponential backoff with timeout on retry", () => {
         },
       })
     );
-    expect(httpResult.error).toBeNull();
+    expect(httpResult.error).toBeUndefined();
   });
 });
 
@@ -639,7 +640,7 @@ describe("Retry with exponential jitter backoff", () => {
         },
       })
     );
-    expect(httpResult.error).toBeNull();
+    expect(httpResult.error).toBeUndefined();
   });
 });
 
@@ -704,6 +705,71 @@ describe("Retry with exponential jitter backoff and timeout", () => {
         },
       })
     );
-    expect(httpResult.error).toBeNull();
+    expect(httpResult.error).toBeUndefined();
   });
+});
+
+describe("Retry with http request returning non-valid http status code for retry", () => {
+  let axiosMock;
+
+  for (let httpStatusCode of DefaultRetryExcludedHttpStatusCodes) {
+    test("using default non-valid http status code for retry", async () => {
+      axiosMock = new MockAdapter(axios);
+
+      axiosMock.onGet("/complex").reply(httpStatusCode);
+
+      const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor(
+        {
+          maxNumberOfRetries: 3,
+          retryIntervalStrategy: RetryIntervalStrategy.Exponential_With_Jitter,
+        }
+      );
+
+      //Act
+      const httpResult =
+        await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+          axios.get("/complex")
+        );
+
+      //Assert
+      expect(httpResult.data).toBeNull();
+      expect(httpResult.error).not.toBeNull();
+      expect(httpResult.error?.reason).toBe("retry");
+      expect(httpResult.error?.message).toBe(
+        `The http status code of the response indicates that a retry shoudldn't happen. Status code received: ${httpStatusCode}`
+      );
+    });
+  }
+
+  const customNonValidHttpStatusCodesForRetry = [404, 500, 503];
+
+  for (let httpStatusCode of customNonValidHttpStatusCodesForRetry) {
+    test("using custom non-valid http status code for retry", async () => {
+      axiosMock = new MockAdapter(axios);
+
+      axiosMock.onGet("/complex").reply(httpStatusCode);
+
+      const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor(
+        {
+          maxNumberOfRetries: 3,
+          retryIntervalStrategy: RetryIntervalStrategy.Exponential_With_Jitter,
+          excludeRetriesOnStatusCodes: customNonValidHttpStatusCodesForRetry,
+        }
+      );
+
+      //Act
+      const httpResult =
+        await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+          axios.get("/complex")
+        );
+
+      //Assert
+      expect(httpResult.data).toBeNull();
+      expect(httpResult.error).not.toBeNull();
+      expect(httpResult.error?.reason).toBe("retry");
+      expect(httpResult.error?.message).toBe(
+        `The http status code of the response indicates that a retry shoudldn't happen. Status code received: ${httpStatusCode}`
+      );
+    });
+  }
 });

@@ -69,6 +69,6 @@ describe("Timeout", () => {
         },
       })
     );
-    expect(httpResult.error).toBeNull();
+    expect(httpResult.error).toBeUndefined();
   });
 });

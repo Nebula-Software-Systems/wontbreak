@@ -1,3 +1,4 @@
+import { DefaultRetryExcludedHttpStatusCodes } from "../models/default-retry-excluded-http-status-codes";
 import { RetryIntervalStrategy } from "../models/retry-interval-options";
 import { RetryPolicyType } from "../models/retry-policy-type";
 import { computeRetryBackoffForStrategyInSeconds } from "../strategy/retry-backoff-strategy";
@@ -16,7 +17,18 @@ async function retryHttpIteration(
 ): Promise<any> {
   try {
     return await httpRequest;
-  } catch (error) {
+  } catch (error: any) {
+    if (
+      error.response &&
+      error.response.status &&
+      blockedStatusCodesForRetry(retryPolicyType).includes(
+        error.response.status
+      )
+    ) {
+      throw new Error(
+        `The http status code of the response indicates that a retry shoudldn't happen. Status code received: ${error.response.status}`
+      );
+    }
     if (currentAttempt <= retryPolicyType.maxNumberOfRetries) {
       const nextAttempt = currentAttempt + 1;
 
@@ -53,3 +65,7 @@ const retryWithBackoff = (
       backoffRetryIntervalInSeconds * 1000
     )
   );
+
+const blockedStatusCodesForRetry = (retryPolicy: RetryPolicyType) =>
+  retryPolicy.excludeRetriesOnStatusCodes ??
+  DefaultRetryExcludedHttpStatusCodes;
