@@ -24,7 +24,7 @@ export class RetryPolicyExecutor implements IPolicyExecutor {
         this.retryPolicy
       );
 
-      return Result.createSuccessHttpResult<T>(result);
+      return Result.createSuccessHttpResult<T>(result.data);
     } catch (error: any) {
       return Result.createRetryErrorResult(error.message as string);
     }

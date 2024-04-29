@@ -1,6 +1,25 @@
+import axios from "axios";
 import { PolicyExecutorFactory } from "../../src/@common/policy-executor-factory";
 import { RetryIntervalStrategy } from "../../src/retry/models/retry-interval-options";
-describe("retry with constant backoff", () => {
+import { createTimedOutRequest } from "../@common/utils/timeout-request-function";
+import { ComplexObject } from "../@common/models/complex-object";
+const MockAdapter = require("axios-mock-adapter");
+
+describe("Retry with constant backoff", () => {
+  let axiosMock;
+  beforeAll(() => {
+    axiosMock = new MockAdapter(axios);
+
+    axiosMock.onGet("/complex").reply(200, {
+      name: "Name",
+      age: 65,
+      address: {
+        street: "Street",
+        zipCode: "ZCode",
+      },
+    });
+  });
+
   test("error thrown when number of retries exceeds", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
@@ -18,9 +37,10 @@ describe("retry with constant backoff", () => {
     };
 
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        httpRequest()
+      );
 
     //Assert
     expect(httpResult.data).toBeNull();
@@ -38,26 +58,43 @@ describe("retry with constant backoff", () => {
       baseRetryDelayInSeconds: 0.2,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("It went well in the first attempt!");
-        }, 300);
-      });
-    };
-
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        axios.get("/complex")
+      );
 
     //Assert
-    expect(httpResult.data).not.toEqual(null);
-    expect(httpResult.data).toEqual("It went well in the first attempt!");
+    expect(httpResult.data).not.toBeNull();
+    expect(JSON.stringify(httpResult.data)).toBe(
+      JSON.stringify({
+        name: "Name",
+        age: 65,
+        address: {
+          street: "Street",
+          zipCode: "ZCode",
+        },
+      })
+    );
+    expect(httpResult.error).toBeNull();
   });
 });
 
-describe("retry with constant backoff with timeout on retry", () => {
+describe("Retry with constant backoff with timeout on retry", () => {
+  let axiosMock;
+  beforeAll(() => {
+    axiosMock = new MockAdapter(axios);
+
+    axiosMock.onGet("/complex").reply(200, {
+      name: "Name",
+      age: 65,
+      address: {
+        street: "Street",
+        zipCode: "ZCode",
+      },
+    });
+  });
+
   test("error thrown when timeout occurs on retry", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
@@ -67,18 +104,11 @@ describe("retry with constant backoff with timeout on retry", () => {
       timeoutPerRetryInSeconds: 0.3,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("This would execute well if it weren't for the timeout.");
-        }, 400);
-      });
-    };
+    const httpRequest = createTimedOutRequest(axios.get("/complex"), 0.4);
 
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(httpRequest);
 
     //Assert
     expect(httpResult.data).toBeNull();
@@ -97,26 +127,43 @@ describe("retry with constant backoff with timeout on retry", () => {
       timeoutPerRetryInSeconds: 0.4,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("It went well in the first attempt!");
-        }, 300);
-      });
-    };
-
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        axios.get("/complex")
+      );
 
     //Assert
-    expect(httpResult.data).not.toEqual(null);
-    expect(httpResult.data).toEqual("It went well in the first attempt!");
+    expect(httpResult.data).not.toBeNull();
+    expect(JSON.stringify(httpResult.data)).toBe(
+      JSON.stringify({
+        name: "Name",
+        age: 65,
+        address: {
+          street: "Street",
+          zipCode: "ZCode",
+        },
+      })
+    );
+    expect(httpResult.error).toBeNull();
   });
 });
 
-describe("retry with linear backoff", () => {
+describe("Retry with linear backoff", () => {
+  let axiosMock;
+  beforeAll(() => {
+    axiosMock = new MockAdapter(axios);
+
+    axiosMock.onGet("/complex").reply(200, {
+      name: "Name",
+      age: 65,
+      address: {
+        street: "Street",
+        zipCode: "ZCode",
+      },
+    });
+  });
+
   test("error thrown when number of retries exceeds", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
@@ -133,9 +180,10 @@ describe("retry with linear backoff", () => {
     };
 
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        httpRequest()
+      );
 
     //Assert
     expect(httpResult.data).toBeNull();
@@ -153,26 +201,43 @@ describe("retry with linear backoff", () => {
       baseRetryDelayInSeconds: 0.2,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("It went well in the first attempt!");
-        }, 300);
-      });
-    };
-
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        axios.get("/complex")
+      );
 
     //Assert
-    expect(httpResult.data).not.toEqual(null);
-    expect(httpResult.data).toEqual("It went well in the first attempt!");
+    expect(httpResult.data).not.toBeNull();
+    expect(JSON.stringify(httpResult.data)).toBe(
+      JSON.stringify({
+        name: "Name",
+        age: 65,
+        address: {
+          street: "Street",
+          zipCode: "ZCode",
+        },
+      })
+    );
+    expect(httpResult.error).toBeNull();
   });
 });
 
-describe("retry with linear backoff with timeout on retry", () => {
+describe("Retry with linear backoff with timeout on retry", () => {
+  let axiosMock;
+  beforeAll(() => {
+    axiosMock = new MockAdapter(axios);
+
+    axiosMock.onGet("/complex").reply(200, {
+      name: "Name",
+      age: 65,
+      address: {
+        street: "Street",
+        zipCode: "ZCode",
+      },
+    });
+  });
+
   test("error thrown when timeout on retry occurs", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
@@ -181,18 +246,11 @@ describe("retry with linear backoff with timeout on retry", () => {
       timeoutPerRetryInSeconds: 0.3,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("This would execute well if it weren't for the timeout.");
-        }, 600);
-      });
-    };
+    const httpRequest = createTimedOutRequest(axios.get("/complex"), 0.6);
 
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(httpRequest);
 
     //Assert
     expect(httpResult.data).toBeNull();
@@ -211,26 +269,42 @@ describe("retry with linear backoff with timeout on retry", () => {
       timeoutPerRetryInSeconds: 1,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("It went well in the first attempt!");
-        }, 300);
-      });
-    };
-
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        axios.get("/complex")
+      );
 
     //Assert
-    expect(httpResult.data).not.toEqual(null);
-    expect(httpResult.data).toEqual("It went well in the first attempt!");
+    expect(httpResult.data).not.toBeNull();
+    expect(JSON.stringify(httpResult.data)).toBe(
+      JSON.stringify({
+        name: "Name",
+        age: 65,
+        address: {
+          street: "Street",
+          zipCode: "ZCode",
+        },
+      })
+    );
+    expect(httpResult.error).toBeNull();
   });
 });
 
-describe("retry with linear and jitter backoff", () => {
+describe("Retry with linear and jitter backoff", () => {
+  let axiosMock;
+  beforeAll(() => {
+    axiosMock = new MockAdapter(axios);
+
+    axiosMock.onGet("/complex").reply(200, {
+      name: "Name",
+      age: 65,
+      address: {
+        street: "Street",
+        zipCode: "ZCode",
+      },
+    });
+  });
   test("error thrown when number of retries exceeds", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
@@ -248,9 +322,10 @@ describe("retry with linear and jitter backoff", () => {
     };
 
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        httpRequest()
+      );
 
     //Assert
     expect(httpResult.data).toBeNull();
@@ -268,26 +343,42 @@ describe("retry with linear and jitter backoff", () => {
       baseRetryDelayInSeconds: 0.4,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("It went well in the first attempt!");
-        }, 300);
-      });
-    };
-
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        axios.get("/complex")
+      );
 
     //Assert
-    expect(httpResult.data).not.toEqual(null);
-    expect(httpResult.data).toEqual("It went well in the first attempt!");
+    expect(httpResult.data).not.toBeNull();
+    expect(JSON.stringify(httpResult.data)).toBe(
+      JSON.stringify({
+        name: "Name",
+        age: 65,
+        address: {
+          street: "Street",
+          zipCode: "ZCode",
+        },
+      })
+    );
+    expect(httpResult.error).toBeNull();
   });
 });
 
-describe("retry with linear and jitter backoff with timeout on retry", () => {
+describe("Retry with linear and jitter backoff with timeout on retry", () => {
+  let axiosMock;
+  beforeAll(() => {
+    axiosMock = new MockAdapter(axios);
+
+    axiosMock.onGet("/complex").reply(200, {
+      name: "Name",
+      age: 65,
+      address: {
+        street: "Street",
+        zipCode: "ZCode",
+      },
+    });
+  });
   test("error thrown when timeout on retries occurs", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
@@ -297,18 +388,11 @@ describe("retry with linear and jitter backoff with timeout on retry", () => {
       timeoutPerRetryInSeconds: 0.3,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("This would execute well if it weren't for the timeout.");
-        }, 600);
-      });
-    };
+    const httpRequest = createTimedOutRequest(axios.get("/complex"), 0.6);
 
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(httpRequest);
 
     //Assert
     expect(httpResult.data).toBeNull();
@@ -327,26 +411,42 @@ describe("retry with linear and jitter backoff with timeout on retry", () => {
       timeoutPerRetryInSeconds: 1,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("It went well in the first attempt!");
-        }, 300);
-      });
-    };
-
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        axios.get("/complex")
+      );
 
     //Assert
-    expect(httpResult.data).not.toEqual(null);
-    expect(httpResult.data).toEqual("It went well in the first attempt!");
+    expect(httpResult.data).not.toBeNull();
+    expect(JSON.stringify(httpResult.data)).toBe(
+      JSON.stringify({
+        name: "Name",
+        age: 65,
+        address: {
+          street: "Street",
+          zipCode: "ZCode",
+        },
+      })
+    );
+    expect(httpResult.error).toBeNull();
   });
 });
 
-describe("retry with exponential backoff", () => {
+describe("Retry with exponential backoff", () => {
+  let axiosMock;
+  beforeAll(() => {
+    axiosMock = new MockAdapter(axios);
+
+    axiosMock.onGet("/complex").reply(200, {
+      name: "Name",
+      age: 65,
+      address: {
+        street: "Street",
+        zipCode: "ZCode",
+      },
+    });
+  });
   test("error thrown when number of retries exceeds", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
@@ -363,9 +463,10 @@ describe("retry with exponential backoff", () => {
     };
 
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        httpRequest()
+      );
 
     //Assert
     expect(httpResult.data).toBeNull();
@@ -382,26 +483,42 @@ describe("retry with exponential backoff", () => {
       retryIntervalStrategy: RetryIntervalStrategy.Exponential,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("It went well in the first attempt!");
-        }, 300);
-      });
-    };
-
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        axios.get("/complex")
+      );
 
     //Assert
-    expect(httpResult.data).not.toEqual(null);
-    expect(httpResult.data).toEqual("It went well in the first attempt!");
+    expect(httpResult.data).not.toBeNull();
+    expect(JSON.stringify(httpResult.data)).toBe(
+      JSON.stringify({
+        name: "Name",
+        age: 65,
+        address: {
+          street: "Street",
+          zipCode: "ZCode",
+        },
+      })
+    );
+    expect(httpResult.error).toBeNull();
   });
 });
 
-describe("retry with exponential backoff with timeout on retry", () => {
+describe("Retry with exponential backoff with timeout on retry", () => {
+  let axiosMock;
+  beforeAll(() => {
+    axiosMock = new MockAdapter(axios);
+
+    axiosMock.onGet("/complex").reply(200, {
+      name: "Name",
+      age: 65,
+      address: {
+        street: "Street",
+        zipCode: "ZCode",
+      },
+    });
+  });
   test("error thrown when timeout on retries occurs", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
@@ -410,18 +527,11 @@ describe("retry with exponential backoff with timeout on retry", () => {
       timeoutPerRetryInSeconds: 0.3,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("This would execute well if it weren't for the timeout.");
-        }, 600);
-      });
-    };
+    const httpRequest = createTimedOutRequest(axios.get("/complex"), 0.6);
 
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(httpRequest);
 
     //Assert
     expect(httpResult.data).toBeNull();
@@ -439,26 +549,42 @@ describe("retry with exponential backoff with timeout on retry", () => {
       timeoutPerRetryInSeconds: 1,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("It went well in the first attempt!");
-        }, 300);
-      });
-    };
-
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        axios.get("/complex")
+      );
 
     //Assert
-    expect(httpResult.data).not.toEqual(null);
-    expect(httpResult.data).toEqual("It went well in the first attempt!");
+    expect(httpResult.data).not.toBeNull();
+    expect(JSON.stringify(httpResult.data)).toBe(
+      JSON.stringify({
+        name: "Name",
+        age: 65,
+        address: {
+          street: "Street",
+          zipCode: "ZCode",
+        },
+      })
+    );
+    expect(httpResult.error).toBeNull();
   });
 });
 
-describe("retry with exponential jitter backoff", () => {
+describe("Retry with exponential jitter backoff", () => {
+  let axiosMock;
+  beforeAll(() => {
+    axiosMock = new MockAdapter(axios);
+
+    axiosMock.onGet("/complex").reply(200, {
+      name: "Name",
+      age: 65,
+      address: {
+        street: "Street",
+        zipCode: "ZCode",
+      },
+    });
+  });
   test("error thrown when number of retries exceeds", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
@@ -475,9 +601,10 @@ describe("retry with exponential jitter backoff", () => {
     };
 
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        httpRequest()
+      );
 
     //Assert
     expect(httpResult.data).toBeNull();
@@ -494,26 +621,42 @@ describe("retry with exponential jitter backoff", () => {
       retryIntervalStrategy: RetryIntervalStrategy.Exponential_With_Jitter,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("It went well in the first attempt!");
-        }, 300);
-      });
-    };
-
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        axios.get("/complex")
+      );
 
     //Assert
-    expect(httpResult.data).not.toEqual(null);
-    expect(httpResult.data).toEqual("It went well in the first attempt!");
+    expect(httpResult.data).not.toBeNull();
+    expect(JSON.stringify(httpResult.data)).toBe(
+      JSON.stringify({
+        name: "Name",
+        age: 65,
+        address: {
+          street: "Street",
+          zipCode: "ZCode",
+        },
+      })
+    );
+    expect(httpResult.error).toBeNull();
   });
 });
 
-describe("retry with exponential jitter backoff and timeout", () => {
+describe("Retry with exponential jitter backoff and timeout", () => {
+  let axiosMock;
+  beforeAll(() => {
+    axiosMock = new MockAdapter(axios);
+
+    axiosMock.onGet("/complex").reply(200, {
+      name: "Name",
+      age: 65,
+      address: {
+        street: "Street",
+        zipCode: "ZCode",
+      },
+    });
+  });
   test("error thrown when timeout on retries occurs", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
@@ -522,18 +665,11 @@ describe("retry with exponential jitter backoff and timeout", () => {
       timeoutPerRetryInSeconds: 0.3,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("This would execute well if it weren't for the timeout.");
-        }, 600);
-      });
-    };
+    const httpRequest = createTimedOutRequest(axios.get("/complex"), 0.6);
 
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(httpRequest);
 
     //Assert
     expect(httpResult.data).toBeNull();
@@ -550,21 +686,24 @@ describe("retry with exponential jitter backoff and timeout", () => {
       retryIntervalStrategy: RetryIntervalStrategy.Exponential_With_Jitter,
     });
 
-    const httpRequest = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("It went well in the first attempt!");
-        }, 300);
-      });
-    };
-
     //Act
-    const httpResult = await retryPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        axios.get("/complex")
+      );
 
     //Assert
-    expect(httpResult.data).not.toEqual(null);
-    expect(httpResult.data).toEqual("It went well in the first attempt!");
+    expect(httpResult.data).not.toBeNull();
+    expect(JSON.stringify(httpResult.data)).toBe(
+      JSON.stringify({
+        name: "Name",
+        age: 65,
+        address: {
+          street: "Street",
+          zipCode: "ZCode",
+        },
+      })
+    );
+    expect(httpResult.error).toBeNull();
   });
 });

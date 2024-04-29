@@ -14,7 +14,7 @@ export class TimeoutPolicyExecutor implements IPolicyExecutor {
         httpRequest,
         this.timeoutPolicy.timeoutInSeconds
       );
-      return Result.createSuccessHttpResult<T>(result);
+      return Result.createSuccessHttpResult<T>(result.data);
     } catch (error) {
       return Result.createTimedOutErrorResult(error as string);
     }

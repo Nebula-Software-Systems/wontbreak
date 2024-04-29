@@ -1,9 +1,8 @@
 import { RetryError } from "../retry/models/retry-error";
 import { TimeoutError } from "../timeout/models/timeout-error";
-import { BaseError } from "./base-error";
 
 export class Result<T> {
-  private constructor(public data?: any, public error: any = null) {
+  private constructor(public data?: T, public error: any = null) {
     this.data = data;
     this.error = error;
   }
@@ -12,13 +11,13 @@ export class Result<T> {
     return new Result(httpResponse);
   }
 
-  static createTimedOutErrorResult(timeoutErrorMessage: string) {
+  static createTimedOutErrorResult<T>(timeoutErrorMessage: string) {
     const timeoutError = TimeoutError.createTimeoutError(timeoutErrorMessage);
-    return new Result(null, timeoutError);
+    return new Result(null as T, timeoutError);
   }
 
-  static createRetryErrorResult(retryErrorMessage: string) {
+  static createRetryErrorResult<T>(retryErrorMessage: string) {
     const retryError = RetryError.createRetryError(retryErrorMessage);
-    return new Result(null, retryError);
+    return new Result(null as T, retryError);
   }
 }

@@ -1,6 +1,25 @@
+import { ComplexObject } from "./../@common/models/complex-object";
 import { PolicyExecutorFactory } from "../../src/@common/policy-executor-factory";
+import axios from "axios";
+import { createTimedOutRequest } from "../@common/utils/timeout-request-function";
+const MockAdapter = require("axios-mock-adapter");
 
-describe("timeout", () => {
+describe("Timeout", () => {
+  let axiosMock;
+
+  beforeAll(() => {
+    axiosMock = new MockAdapter(axios);
+
+    axiosMock.onGet("/complex").reply(200, {
+      name: "Name",
+      age: 65,
+      address: {
+        street: "Street",
+        zipCode: "ZCode",
+      },
+    });
+  });
+
   test("rejection thrown when timeout occurs", async () => {
     //Arrange
     const timeoutPolicyExecutor =
@@ -8,15 +27,13 @@ describe("timeout", () => {
         timeoutInSeconds: 0.2,
       });
 
-    const httpRequest = () =>
-      new Promise((resolve, _) =>
-        setTimeout(() => resolve("This will timeout."), 300)
-      );
+    const httpRequest = createTimedOutRequest(axios.get("/complex"), 0.6);
 
     //Act
-    const httpResult = await timeoutPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
+    const httpResult =
+      await timeoutPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        httpRequest
+      );
 
     //Assert
     expect(httpResult.data).toBeNull();
@@ -34,19 +51,24 @@ describe("timeout", () => {
         timeoutInSeconds: 0.5,
       });
 
-    const httpRequest = () =>
-      new Promise((resolve, _) =>
-        setTimeout(() => resolve("This is not timed-out."), 300)
+    //Act
+    const httpResult =
+      await timeoutPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        axios.get("/complex")
       );
 
-    //Act
-    const httpResult = await timeoutPolicyExecutor.ExecutePolicyAsync<string>(
-      httpRequest()
-    );
-
     //Assert
-    expect(httpResult.data).not.toEqual(null);
-    expect(httpResult.data).toBe("This is not timed-out.");
+    expect(httpResult.data).not.toBeNull();
+    expect(JSON.stringify(httpResult.data)).toBe(
+      JSON.stringify({
+        name: "Name",
+        age: 65,
+        address: {
+          street: "Street",
+          zipCode: "ZCode",
+        },
+      })
+    );
     expect(httpResult.error).toBeNull();
   });
 });
