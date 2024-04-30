@@ -1,4 +1,4 @@
-export function createTimedOutRequest(
+export default function createTimedOutRequest(
   httpRequest: Promise<any>,
   timeoutInSeconds: number
 ): Promise<any> {
