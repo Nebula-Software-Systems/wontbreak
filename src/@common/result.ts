@@ -1,4 +1,4 @@
-import { RetryError } from "../retry/models/retry-error";
+import RetryError from "../retry/models/retry-error";
 import TimeoutError from "../timeout/models/timeout-error";
 import BaseError from "./base-error";
 

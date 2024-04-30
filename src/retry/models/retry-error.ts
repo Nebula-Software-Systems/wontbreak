@@ -1,6 +1,6 @@
 import BaseError from "../../@common/base-error";
 
-export class RetryError extends BaseError {
+export default class RetryError extends BaseError {
   private constructor(message: string, reason = "retry") {
     super(reason, message);
   }

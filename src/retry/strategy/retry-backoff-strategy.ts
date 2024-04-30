@@ -1,6 +1,6 @@
 import { RetryIntervalStrategy } from "../models/retry-interval-options";
 
-export function computeRetryBackoffForStrategyInSeconds(
+export default function computeRetryBackoffForStrategyInSeconds(
   retryStrategy: RetryIntervalStrategy,
   nextRetryAttempt: number,
   baseSeconds: number = 1
