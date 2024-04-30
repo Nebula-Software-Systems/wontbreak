@@ -1,17 +1,17 @@
-import { Result } from "../../@common/result";
 import { RetryPolicyType } from "../models/retry-policy-type";
 import { executeHttpRequestWithRetryPolicy } from "./retry-http-request-execution";
-import { executeHttpRequestWithTimeoutPolicy } from "../../timeout/execution/timeout-http-request-execution";
 import IPolicyExecutor from "../../@common/policy-executor-interface";
+import executeHttpRequestWithTimeoutPolicy from "../../timeout/execution/timeout-http-request-execution";
+import Result from "../../@common/result";
 
-export class RetryPolicyExecutor implements IPolicyExecutor {
+export default class RetryPolicyExecutor implements IPolicyExecutor {
   private constructor(private retryPolicy: RetryPolicyType) {
     this.retryPolicy = retryPolicy;
   }
 
   async ExecutePolicyAsync<T>(httpRequest: Promise<any>): Promise<Result<T>> {
     try {
-      const request =
+      const httpRequestToExecute =
         this.retryPolicy.timeoutPerRetryInSeconds === undefined
           ? httpRequest
           : executeHttpRequestWithTimeoutPolicy(
@@ -19,12 +19,12 @@ export class RetryPolicyExecutor implements IPolicyExecutor {
               this.retryPolicy.timeoutPerRetryInSeconds
             );
 
-      const result = await executeHttpRequestWithRetryPolicy(
-        request,
+      const httpResult = await executeHttpRequestWithRetryPolicy(
+        httpRequestToExecute,
         this.retryPolicy
       );
 
-      return Result.createSuccessHttpResult<T>(result.data);
+      return Result.createSuccessHttpResult<T>(httpResult.data);
     } catch (error: any) {
       return Result.createRetryErrorResult(error.message as string);
     }

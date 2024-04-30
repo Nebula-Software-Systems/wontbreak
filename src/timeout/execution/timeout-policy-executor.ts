@@ -1,20 +1,18 @@
 import { TimeoutPolicyType } from "../models/timeout-policy-type";
-import { executeHttpRequestWithTimeoutPolicy } from "./timeout-http-request-execution";
-import { Result } from "../../@common/result";
 import IPolicyExecutor from "../../@common/policy-executor-interface";
+import executeHttpRequestWithTimeoutPolicy from "./timeout-http-request-execution";
+import Result from "../../@common/result";
 
-export class TimeoutPolicyExecutor implements IPolicyExecutor {
-  private constructor(private timeoutPolicy: TimeoutPolicyType) {
-    this.timeoutPolicy = timeoutPolicy;
-  }
+export default class TimeoutPolicyExecutor implements IPolicyExecutor {
+  private constructor(private timeoutPolicy: TimeoutPolicyType) {}
 
   async ExecutePolicyAsync<T>(httpRequest: Promise<any>): Promise<Result<T>> {
     try {
-      const result = await executeHttpRequestWithTimeoutPolicy(
+      const httpResult = await executeHttpRequestWithTimeoutPolicy(
         httpRequest,
         this.timeoutPolicy.timeoutInSeconds
       );
-      return Result.createSuccessHttpResult<T>(result.data);
+      return Result.createSuccessHttpResult<T>(httpResult.data);
     } catch (error) {
       return Result.createTimedOutErrorResult(error as string);
     }

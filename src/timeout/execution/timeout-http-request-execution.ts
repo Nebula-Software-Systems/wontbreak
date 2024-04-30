@@ -1,4 +1,4 @@
-export function executeHttpRequestWithTimeoutPolicy(
+export default function executeHttpRequestWithTimeoutPolicy(
   promise: Promise<any>,
   timeoutInSeconds: number
 ): Promise<any> {

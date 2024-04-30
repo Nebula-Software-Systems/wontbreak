@@ -1,6 +1,6 @@
-import { RetryPolicyExecutor } from "../retry/execution/retry-policy-executor";
+import RetryPolicyExecutor from "../retry/execution/retry-policy-executor";
 import { RetryPolicyType } from "../retry/models/retry-policy-type";
-import { TimeoutPolicyExecutor } from "../timeout/execution/timeout-policy-executor";
+import TimeoutPolicyExecutor from "../timeout/execution/timeout-policy-executor";
 import { TimeoutPolicyType } from "../timeout/models/timeout-policy-type";
 
 export default class PolicyExecutorFactory {
