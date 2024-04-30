@@ -1,7 +1,10 @@
-import { DefaultRetryExcludedHttpStatusCodes } from "../models/default-retry-excluded-http-status-codes";
 import { RetryIntervalStrategy } from "../models/retry-interval-options";
 import { RetryPolicyType } from "../models/retry-policy-type";
 import { computeRetryBackoffForStrategyInSeconds } from "../strategy/retry-backoff-strategy";
+import {
+  blockedStatusCodesForRetry,
+  retryWithBackoff,
+} from "./utils/retry-utils";
 
 export async function executeHttpRequestWithRetryPolicy(
   httpRequest: Promise<any>,
@@ -54,18 +57,3 @@ async function retryHttpIteration(
     }
   }
 }
-
-const retryWithBackoff = (
-  httpRequest: any,
-  backoffRetryIntervalInSeconds: number
-) =>
-  new Promise((resolve) =>
-    setTimeout(
-      () => resolve(httpRequest()),
-      backoffRetryIntervalInSeconds * 1000
-    )
-  );
-
-const blockedStatusCodesForRetry = (retryPolicy: RetryPolicyType) =>
-  retryPolicy.excludeRetriesOnStatusCodes ??
-  DefaultRetryExcludedHttpStatusCodes;
