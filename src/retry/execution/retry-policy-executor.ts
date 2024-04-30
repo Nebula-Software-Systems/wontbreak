@@ -5,9 +5,7 @@ import Result from "../../@common/result";
 import executeHttpRequestWithRetryPolicy from "./retry-http-request-execution";
 
 export default class RetryPolicyExecutor implements IPolicyExecutor {
-  private constructor(private retryPolicy: RetryPolicyType) {
-    this.retryPolicy = retryPolicy;
-  }
+  private constructor(private retryPolicy: RetryPolicyType) {}
 
   async ExecutePolicyAsync<T>(httpRequest: Promise<any>): Promise<Result<T>> {
     try {
