@@ -3,7 +3,7 @@ import { RetryPolicyType } from "../retry/models/retry-policy-type";
 import { TimeoutPolicyExecutor } from "../timeout/execution/timeout-policy-executor";
 import { TimeoutPolicyType } from "../timeout/models/timeout-policy-type";
 
-export class PolicyExecutorFactory {
+export default class PolicyExecutorFactory {
   static createTimeoutHttpExecutor(timeoutPolicy: TimeoutPolicyType) {
     return TimeoutPolicyExecutor.createTimeoutExecutor(timeoutPolicy);
   }

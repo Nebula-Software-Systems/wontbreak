@@ -1,9 +1,9 @@
 import axios from "axios";
-import { PolicyExecutorFactory } from "../../src/@common/policy-executor-factory";
 import { RetryIntervalStrategy } from "../../src/retry/models/retry-interval-options";
 import { ComplexObject } from "../@common/models/complex-object";
 import { DefaultRetryExcludedHttpStatusCodes } from "../../src/retry/models/default-retry-excluded-http-status-codes";
 import createTimedOutRequest from "../@common/utils/timeout-request-function";
+import PolicyExecutorFactory from "../../src/@common/policy-executor-factory";
 const MockAdapter = require("axios-mock-adapter");
 
 describe("Retry with constant backoff", () => {

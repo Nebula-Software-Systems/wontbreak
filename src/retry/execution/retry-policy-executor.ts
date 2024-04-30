@@ -1,8 +1,8 @@
-import { IPolicyExecutor } from "../../@common/policy-executor-interface";
 import { Result } from "../../@common/result";
 import { RetryPolicyType } from "../models/retry-policy-type";
 import { executeHttpRequestWithRetryPolicy } from "./retry-http-request-execution";
 import { executeHttpRequestWithTimeoutPolicy } from "../../timeout/execution/timeout-http-request-execution";
+import IPolicyExecutor from "../../@common/policy-executor-interface";
 
 export class RetryPolicyExecutor implements IPolicyExecutor {
   private constructor(private retryPolicy: RetryPolicyType) {

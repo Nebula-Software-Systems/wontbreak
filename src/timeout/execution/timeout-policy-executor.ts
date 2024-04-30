@@ -1,7 +1,7 @@
 import { TimeoutPolicyType } from "../models/timeout-policy-type";
-import { IPolicyExecutor } from "../../@common/policy-executor-interface";
 import { executeHttpRequestWithTimeoutPolicy } from "./timeout-http-request-execution";
 import { Result } from "../../@common/result";
+import IPolicyExecutor from "../../@common/policy-executor-interface";
 
 export class TimeoutPolicyExecutor implements IPolicyExecutor {
   private constructor(private timeoutPolicy: TimeoutPolicyType) {

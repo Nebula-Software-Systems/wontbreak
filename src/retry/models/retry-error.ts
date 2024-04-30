@@ -1,4 +1,4 @@
-import { BaseError } from "../../@common/base-error";
+import BaseError from "../../@common/base-error";
 
 export class RetryError extends BaseError {
   private constructor(message: string, reason = "retry") {
