@@ -9,10 +9,26 @@ describe("circuit state manager", () => {
     );
     //Act
     //Assert
-    expect(circuitStateManager.isCurrentStateClosed).toBeTruthy();
+    expect(circuitStateManager.isCurrentStateClosed()).toBe(true);
   });
 
-  test("moving from closed to open", () => {
+  test("moving from closed to open and then to half-opened should be allowed", () => {
+    //Arrange
+    const circuitStateManager = new CircuitBreakerStateManager({
+      onHalfOpen: () => {},
+    } as CircuitBreakerPolicyType);
+    //Act
+    circuitStateManager.moveStateToOpen();
+
+    //Assert
+    expect(circuitStateManager.isCurrentStateOpen()).toBeTruthy();
+
+    //move to half-open
+    circuitStateManager.moveStateToHalfOpen();
+    expect(circuitStateManager.isCurrentStateHalfOpen()).toBe(true);
+  });
+
+  test("moving from closed to open and then to half-opened and then to closed should be allowed", () => {
     //Arrange
     const circuitStateManager = new CircuitBreakerStateManager({
       onHalfOpen: () => {},
@@ -22,30 +38,33 @@ describe("circuit state manager", () => {
 
     //Assert
     expect(circuitStateManager.isCurrentStateOpen).toBeTruthy();
+
+    //move to half-open
+    circuitStateManager.moveStateToHalfOpen();
+    expect(circuitStateManager.isCurrentStateHalfOpen()).toBe(true);
+
+    //move to closed
+    circuitStateManager.moveStateToClosed();
+    expect(circuitStateManager.isCurrentStateClosed()).toBe(true);
   });
 
-  test("moving from closed to half", () => {
+  test("moving from closed to open and then to half-opened and then to opened should be allowed", () => {
     //Arrange
     const circuitStateManager = new CircuitBreakerStateManager({
       onHalfOpen: () => {},
     } as CircuitBreakerPolicyType);
     //Act
-    circuitStateManager.moveStateToHalfOpen();
-
-    //Assert
-    expect(circuitStateManager.isCurrentStateHalfOpen).toBeTruthy();
-  });
-
-  test("moving from closed to half and then to closed", () => {
-    //Arrange
-    const circuitStateManager = new CircuitBreakerStateManager({
-      onHalfOpen: () => {},
-    } as CircuitBreakerPolicyType);
-    //Act
-    circuitStateManager.moveStateToHalfOpen();
     circuitStateManager.moveStateToOpen();
 
     //Assert
-    expect(circuitStateManager.isCurrentStateClosed).toBeTruthy();
+    expect(circuitStateManager.isCurrentStateOpen).toBeTruthy();
+
+    //move to half-open
+    circuitStateManager.moveStateToHalfOpen();
+    expect(circuitStateManager.isCurrentStateHalfOpen()).toBe(true);
+
+    //move to open
+    circuitStateManager.moveStateToOpen();
+    expect(circuitStateManager.isCurrentStateOpen()).toBe(true);
   });
 });
