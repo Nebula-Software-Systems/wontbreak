@@ -21,7 +21,7 @@ describe("circuit state manager", () => {
     circuitStateManager.moveStateToOpen();
 
     //Assert
-    expect(circuitStateManager.isCurrentStateOpen()).toBeTruthy();
+    expect(circuitStateManager.isCurrentStateOpen()).toBe(true);
 
     //move to half-open
     circuitStateManager.moveStateToHalfOpen();
