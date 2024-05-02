@@ -1,3 +1,5 @@
+import CircuitBreakerPolicyExecutor from "../circuit-breaker/execution/circuit-breaker-executor";
+import { CircuitBreakerPolicyType } from "../circuit-breaker/models/circuit-breaker-policy-type";
 import RetryPolicyExecutor from "../retry/execution/retry-policy-executor";
 import { RetryPolicyType } from "../retry/models/retry-policy-type";
 import TimeoutPolicyExecutor from "../timeout/execution/timeout-policy-executor";
@@ -10,5 +12,13 @@ export default class PolicyExecutorFactory {
 
   static createRetryHttpExecutor(retryPolicy: RetryPolicyType) {
     return RetryPolicyExecutor.createRetryExecutor(retryPolicy);
+  }
+
+  static createCircuitBreakerHttpExecutor(
+    circuitBreakerPolicy: CircuitBreakerPolicyType
+  ) {
+    return CircuitBreakerPolicyExecutor.createCircuitBreakerExecutor(
+      circuitBreakerPolicy
+    );
   }
 }
