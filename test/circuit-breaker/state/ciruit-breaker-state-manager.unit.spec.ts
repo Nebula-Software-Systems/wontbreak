@@ -67,4 +67,39 @@ describe("circuit state manager", () => {
     circuitStateManager.moveStateToOpen();
     expect(circuitStateManager.isCurrentStateOpen()).toBe(true);
   });
+
+  test("moving from closed to half-opened should not be allowed", () => {
+    //Arrange
+    const circuitStateManager = new CircuitBreakerStateManager({
+      onHalfOpen: () => {},
+    } as CircuitBreakerPolicyType);
+
+    //Act
+
+    //Assert
+    expect(() => {
+      circuitStateManager.moveStateToHalfOpen();
+    }).toThrow(Error);
+    expect(() => {
+      circuitStateManager.moveStateToHalfOpen();
+    }).toThrow("The state change from closed to half-open is not allowed.");
+  });
+
+  test("moving from closed to opened and then to closed should not be allowed", () => {
+    //Arrange
+    const circuitStateManager = new CircuitBreakerStateManager({
+      onHalfOpen: () => {},
+    } as CircuitBreakerPolicyType);
+
+    //Act
+    circuitStateManager.moveStateToOpen();
+
+    //Assert
+    expect(() => {
+      circuitStateManager.moveStateToClosed();
+    }).toThrow(Error);
+    expect(() => {
+      circuitStateManager.moveStateToClosed();
+    }).toThrow("The state change from opened to closed is not allowed.");
+  });
 });

@@ -56,10 +56,17 @@ export default class CircuitBreakerStateManager
   }
 
   moveStateToClosed(): void {
+    if (this.isCurrentStateOpen())
+      throw new Error("The state change from opened to closed is not allowed.");
     this.onClose();
   }
 
   moveStateToHalfOpen(): void {
+    if (this.isCurrentStateClosed())
+      throw new Error(
+        "The state change from closed to half-open is not allowed."
+      );
+
     this.onHalfOpen();
   }
 
