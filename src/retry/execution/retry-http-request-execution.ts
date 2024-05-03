@@ -3,7 +3,7 @@ import { RetryPolicyType } from "../models/retry-policy-type";
 import computeRetryBackoffForStrategyInSeconds from "../strategy/retry-backoff-strategy";
 import {
   doesResponseHaveStatusCodeBlockedForRetry,
-  isCurrentAttemptBelowMaxNumberOfRetries,
+  isCurrentAttemptBelowMaxNumberOfRetries as isNextAttemptBelowMaxNumberOfRetries,
   retryWithBackoff,
 } from "./utils/retry-utils";
 
@@ -11,7 +11,7 @@ export default async function executeHttpRequestWithRetryPolicy(
   httpRequest: Promise<any>,
   retryPolicyType: RetryPolicyType
 ) {
-  return await executeHttpRequestWithRetry(httpRequest, 1, retryPolicyType);
+  return await executeHttpRequestWithRetry(httpRequest, 0, retryPolicyType);
 }
 
 async function executeHttpRequestWithRetry(
@@ -27,13 +27,16 @@ async function executeHttpRequestWithRetry(
         `The http status code of the response indicates that a retry shoudldn't happen. Status code received: ${error.response.status}`
       );
     }
+
+    const nextAttempt = currentAttempt + 1;
+
     if (
-      isCurrentAttemptBelowMaxNumberOfRetries(
-        currentAttempt,
+      isNextAttemptBelowMaxNumberOfRetries(
+        nextAttempt,
         retryPolicyType.maxNumberOfRetries
       )
     ) {
-      return retryHttpRequest(httpRequest, currentAttempt, retryPolicyType);
+      return retryHttpRequest(httpRequest, nextAttempt, retryPolicyType);
     } else {
       throw new Error(
         `The number of retries (${retryPolicyType.maxNumberOfRetries}) has exceeded.`
@@ -44,11 +47,9 @@ async function executeHttpRequestWithRetry(
 
 function retryHttpRequest(
   httpRequest: Promise<any>,
-  currentAttempt: number,
+  nextAttempt: number,
   retryPolicyType: RetryPolicyType
 ) {
-  const nextAttempt = currentAttempt + 1;
-
   const retryBackoffStrategy =
     retryPolicyType.retryIntervalStrategy ??
     RetryIntervalStrategy.Linear_With_Jitter;
