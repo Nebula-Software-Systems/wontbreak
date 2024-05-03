@@ -15,7 +15,7 @@
     "typescript": "^5.4.5"
   },
   "name": "nebula-http-resiliency",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Allows you to have resilient http calls.",
   "main": "index.js",
   "directories": {
