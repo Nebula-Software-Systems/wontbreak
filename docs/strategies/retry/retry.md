@@ -41,10 +41,7 @@ _baseRetryDelayInSeconds_ * next_retry_attempt
 
 Let's assume that _baseRetryDelayInSeconds_ is 1.
 
-When we try the request for the first time, and it fails, the next retry will happen after 2 seconds (next_retry_attempt = 2)
-
-> [!NOTE]
-> We count the first request attempt as a retry.
+When we try the request for the second time, and it fails, the next retry will happen after 3 seconds (next_retry_attempt = 3)
 
 
 #### Linear With Jitter
