@@ -2,12 +2,11 @@ import axios from "axios";
 import PolicyExecutorFactory from "../../src/@common/policy-executor-factory";
 import { RetryIntervalStrategy } from "../../src/retry/models/retry-interval-options";
 import { CircuitState } from "../../src/circuit-breaker/models/circuit-state";
-const MockAdapter = require("axios-mock-adapter");
+import MockAdapter from "axios-mock-adapter";
 
 describe("Circuit breaker", () => {
   test("circuit state changes from closed to half-opened when number of retries exceeds maximum", async () => {
-    let axiosMock;
-    axiosMock = new MockAdapter(axios);
+    const axiosMock = new MockAdapter(axios);
     axiosMock.onGet("/complex").reply(404);
 
     /**
@@ -65,8 +64,7 @@ describe("Circuit breaker", () => {
 
   test("when circuit is half-opened and request is sent with success, state changes to closed", async () => {
     //Arrange
-    let axiosMock;
-    axiosMock = new MockAdapter(axios);
+    const axiosMock = new MockAdapter(axios);
     axiosMock.onGet("/bad").reply(404);
     axiosMock.onGet("/good").reply(200, {
       messaage: "success",
@@ -98,7 +96,7 @@ describe("Circuit breaker", () => {
     await new Promise((r) => setTimeout(r, 4000));
 
     //Act
-    var httpResult = await circuitBreakerExecutor.ExecutePolicyAsync<any>(
+    const httpResult = await circuitBreakerExecutor.ExecutePolicyAsync<any>(
       axios.get("/good")
     );
 
@@ -121,8 +119,7 @@ describe("Circuit breaker", () => {
 
   test("when circuit is half-opened and request is sent unsuccessful, state changes to opened", async () => {
     //Arrange
-    let axiosMock;
-    axiosMock = new MockAdapter(axios);
+    const axiosMock = new MockAdapter(axios);
     axiosMock.onGet("/bad").reply(404);
 
     const circuitBreakerType = {
@@ -151,7 +148,7 @@ describe("Circuit breaker", () => {
     await new Promise((r) => setTimeout(r, 4000));
 
     //Act
-    var httpResult = await circuitBreakerExecutor.ExecutePolicyAsync<any>(
+    const httpResult = await circuitBreakerExecutor.ExecutePolicyAsync<any>(
       axios.get("/bad")
     );
 
@@ -173,8 +170,7 @@ describe("Circuit breaker", () => {
 
   test("when circuit is opened and request is sent, error response is sent", async () => {
     //Arrange
-    let axiosMock;
-    axiosMock = new MockAdapter(axios);
+    const axiosMock = new MockAdapter(axios);
     axiosMock.onGet("/bad").reply(404);
     axiosMock.onGet("/good").reply(200, {
       messaage: "success",
@@ -203,7 +199,7 @@ describe("Circuit breaker", () => {
     await circuitBreakerExecutor.ExecutePolicyAsync<any>(axios.get("/bad"));
 
     //Act
-    var httpResult = await circuitBreakerExecutor.ExecutePolicyAsync<any>(
+    const httpResult = await circuitBreakerExecutor.ExecutePolicyAsync<any>(
       axios.get("/good")
     );
 

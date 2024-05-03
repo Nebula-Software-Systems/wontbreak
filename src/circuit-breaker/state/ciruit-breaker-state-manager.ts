@@ -12,7 +12,7 @@ export default class CircuitBreakerStateManager
 
   constructor(private circuitBreakerPolicy: CircuitBreakerPolicyType) {
     this.onOpen = () => {
-      var fn =
+      const fn =
         this.circuitBreakerPolicy.onOpen ??
         (() => console.log("Circuit is now open."));
       fn();
@@ -23,7 +23,7 @@ export default class CircuitBreakerStateManager
     };
 
     this.onClose = () => {
-      var fn =
+      const fn =
         this.circuitBreakerPolicy.onClose ??
         (() => console.log("Circuit is now closed."));
       fn();
@@ -31,7 +31,7 @@ export default class CircuitBreakerStateManager
     };
 
     this.onHalfOpen = () => {
-      var fn =
+      const fn =
         this.circuitBreakerPolicy.onHalfOpen ??
         (() => console.log("Circuit is now half-open."));
       fn();

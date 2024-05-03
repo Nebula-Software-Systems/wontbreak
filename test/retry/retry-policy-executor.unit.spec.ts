@@ -4,7 +4,7 @@ import { ComplexObject } from "../@common/models/complex-object";
 import { DefaultRetryExcludedHttpStatusCodes } from "../../src/retry/models/default-retry-excluded-http-status-codes";
 import createTimedOutRequest from "../@common/utils/timeout-request-function";
 import PolicyExecutorFactory from "../../src/@common/policy-executor-factory";
-const MockAdapter = require("axios-mock-adapter");
+import MockAdapter from "axios-mock-adapter";
 
 describe("Retry with constant backoff", () => {
   let axiosMock;
@@ -712,7 +712,7 @@ describe("Retry with exponential jitter backoff and timeout", () => {
 describe("Retry with http request returning non-valid http status code for retry", () => {
   let axiosMock;
 
-  for (let httpStatusCode of DefaultRetryExcludedHttpStatusCodes) {
+  for (const httpStatusCode of DefaultRetryExcludedHttpStatusCodes) {
     test("using default non-valid http status code for retry", async () => {
       axiosMock = new MockAdapter(axios);
 
@@ -743,7 +743,7 @@ describe("Retry with http request returning non-valid http status code for retry
 
   const customNonValidHttpStatusCodesForRetry = [404, 500, 503];
 
-  for (let httpStatusCode of customNonValidHttpStatusCodesForRetry) {
+  for (const httpStatusCode of customNonValidHttpStatusCodesForRetry) {
     test("using custom non-valid http status code for retry", async () => {
       axiosMock = new MockAdapter(axios);
 
