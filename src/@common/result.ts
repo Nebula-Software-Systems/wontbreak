@@ -4,10 +4,7 @@ import TimeoutError from "../timeout/models/timeout-error";
 import BaseError from "./base-error";
 
 export default class Result<T> {
-  private constructor(public data?: T, public error?: BaseError) {
-    this.data = data;
-    this.error = error;
-  }
+  private constructor(public data?: T, public error?: BaseError) {}
 
   static createSuccessHttpResult<T>(httpResponse: T) {
     return new Result(httpResponse);
