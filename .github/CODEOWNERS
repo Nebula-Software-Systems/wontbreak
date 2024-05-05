@@ -1,2 +1,5 @@
 *.ts @RafaelJCamara
 *.js @RafaelJCamara
+src/* @RafaelJCamara
+test/* @RafaelJCamara
+docs/* @RafaelJCamara
