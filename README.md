@@ -5,6 +5,10 @@
   Make your axios requests more resilient.
 </p>
 
+[![Coverage Status](https://coveralls.io/repos/github/Nebula-Software-Systems/nebula-http-resiliency/badge.svg?branch=main)](https://coveralls.io/github/Nebula-Software-Systems/nebula-http-resiliency?branch=main)
+
+![NPM Downloads](https://img.shields.io/npm/d18m/nebula-http-resiliency)
+
 ## About
 
 nebula-http-resiliency is an Open-Source library that allows you to make your axios requests more resilient.
