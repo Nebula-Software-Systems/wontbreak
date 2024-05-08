@@ -30,7 +30,7 @@ export default class CircuitBreakerPolicyExecutor implements IPolicyExecutor {
       );
     }
 
-    const httpResult = await this.retryPolicyExecutor.ExecutePolicyAsync(
+    const httpResult = await this.retryPolicyExecutor.ExecutePolicyAsync<T>(
       httpRequest
     );
 
