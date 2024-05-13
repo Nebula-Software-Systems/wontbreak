@@ -9,13 +9,12 @@ export default class RetryPolicyExecutor implements IPolicyExecutor {
 
   async ExecutePolicyAsync<T>(httpRequest: Promise<any>): Promise<Result<T>> {
     try {
-      const httpRequestToExecute =
-        this.retryPolicy.timeoutPerRetryInSeconds === undefined
-          ? httpRequest
-          : executeHttpRequestWithTimeoutPolicy(
-              httpRequest,
-              this.retryPolicy.timeoutPerRetryInSeconds
-            );
+      const httpRequestToExecute = !this.retryPolicy.timeoutPerRetryInSeconds
+        ? httpRequest
+        : executeHttpRequestWithTimeoutPolicy(
+            httpRequest,
+            this.retryPolicy.timeoutPerRetryInSeconds
+          );
 
       const httpResult = await executeHttpRequestWithRetryPolicy(
         httpRequestToExecute,
