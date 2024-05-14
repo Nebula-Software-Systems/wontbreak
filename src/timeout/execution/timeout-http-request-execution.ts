@@ -1,3 +1,11 @@
+/**
+ * Executes an HTTP request with a timeout trigger.
+ *
+ * @param promise The HTTP request.
+ * @param timeoutInSeconds The HTTP request timeout.
+ *
+ * @returns A promise resolved or rejected depending if the HTTP request succeded before the timeout happened (resolved) or not (rejected).
+ */
 export default function executeHttpRequestWithTimeoutPolicy(
   promise: Promise<any>,
   timeoutInSeconds: number

@@ -1,3 +1,6 @@
+/**
+ * Retry backoff strategies.
+ */
 export enum RetryIntervalStrategy {
   Constant,
   Linear,
