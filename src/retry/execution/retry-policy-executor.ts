@@ -4,6 +4,9 @@ import executeHttpRequestWithTimeoutPolicy from "../../timeout/execution/timeout
 import Result from "../../@common/result";
 import executeHttpRequestWithRetryPolicy from "./retry-http-request-execution";
 
+/**
+ * Policy executor for requests we want to retry.
+ */
 export default class RetryPolicyExecutor implements IPolicyExecutor {
   private constructor(private retryPolicy: RetryPolicyType) {}
 
@@ -27,6 +30,13 @@ export default class RetryPolicyExecutor implements IPolicyExecutor {
     }
   }
 
+  /**
+   * Creates a {@link RetryPolicyExecutor | retry policy executor}.
+   *
+   * @param retryPolicy The {@link RetryPolicyType | retry policy} to configure the retry policy executor.
+   *
+   * @returns An instance of {@link RetryPolicyExecutor}.
+   */
   static createRetryExecutor(retryPolicy: RetryPolicyType) {
     return new RetryPolicyExecutor(retryPolicy);
   }

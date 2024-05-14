@@ -9,7 +9,6 @@ import Result from "../../@common/result";
 export default class TimeoutPolicyExecutor implements IPolicyExecutor {
   private constructor(private timeoutPolicy: TimeoutPolicyType) {}
 
-  /** {@inheritDoc IPolicyExecutor.ExecutePolicyAsync} */
   async ExecutePolicyAsync<T>(httpRequest: Promise<any>): Promise<Result<T>> {
     try {
       const httpResult = await executeHttpRequestWithTimeoutPolicy(
