@@ -5,7 +5,7 @@ import { RetryIntervalStrategy } from "./retry-interval-options";
  */
 export type RetryPolicyType = {
   /**
-   * Maximum number of retries allow after the first attempt has failed.
+   * Maximum number of retries allowed after the first attempt has failed.
    *
    * @example 3
    */
@@ -21,7 +21,7 @@ export type RetryPolicyType = {
   retryIntervalStrategy?: RetryIntervalStrategy;
 
   /**
-   * Represents a constant of the retry backoff interval computation.
+   * Represents a constant, in seconds, of the retry backoff interval computation.
    *
    * @remarks
    *

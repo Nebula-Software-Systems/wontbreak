@@ -7,6 +7,9 @@ import ICircuitBreakerStateManager from "../state/circuit-breaker-state-manager.
 import CircuitBreakerStateManager from "../state/ciruit-breaker-state-manager";
 import { CircuitState } from "../models/circuit-state";
 
+/**
+ * Policy executor for requests we want to maintain a circuit-breaker for.
+ */
 export default class CircuitBreakerPolicyExecutor implements IPolicyExecutor {
   private retryPolicyExecutor: IPolicyExecutor;
 
@@ -49,10 +52,22 @@ export default class CircuitBreakerPolicyExecutor implements IPolicyExecutor {
     }
   }
 
+  /**
+   * Gets the current state of the circuit.
+   *
+   * @returns The current state of the circuit.
+   */
   getCurrentCircuitState(): CircuitState {
     return this.circuitBreakerStateManager.getCurrentState();
   }
 
+  /**
+   * Creates a {@link CircuitBreakerPolicyExecutor | circuit-breaker policy executor}.
+   *
+   * @param circuitBreakerPolicy The {@link CircuitBreakerPolicyType | circuit-breaker policy} to configure the circuit-breaker policy executor.
+   *
+   * @returns An instance of {@link CircuitBreakerPolicyExecutor}.
+   */
   static createCircuitBreakerExecutor(
     circuitBreakerPolicy: CircuitBreakerPolicyType
   ) {
