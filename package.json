@@ -12,13 +12,19 @@
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.25.13",
-    "typescript": "^5.4.5"
+    "tsup": "^8.0.2",
+    "typedoc": "^0.25.13"
   },
   "name": "nebula-http-resiliency",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Allows you to have resilient http calls.",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.mjs",
+  "files": [
+    "./dist",
+    "README.md"
+  ],
   "directories": {
     "test": "test"
   },
@@ -214,7 +220,8 @@
   "scripts": {
     "test": "jest",
     "prepare": "husky",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "build": "tsup"
   },
   "repository": {
     "type": "git",

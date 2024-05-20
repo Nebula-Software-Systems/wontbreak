@@ -1,5 +1,5 @@
 import { RetryIntervalStrategy } from "../../../src/retry/models/retry-interval-options";
-import computeRetryBackoffForStrategyInSeconds from "../../../src/retry/strategy/retry-backoff-strategy";
+import { computeRetryBackoffForStrategyInSeconds } from "../../../src/retry/strategy/retry-backoff-strategy";
 
 describe("retry backoff strategy", () => {
   test("constant", async () => {

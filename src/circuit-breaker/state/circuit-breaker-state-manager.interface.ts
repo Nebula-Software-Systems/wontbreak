@@ -3,7 +3,7 @@ import { CircuitState } from "../models/circuit-state";
 /**
  * Interface that defines how the circuit-breaker state machine works.
  */
-export default interface ICircuitBreakerStateManager {
+export interface ICircuitBreakerStateManager {
   /**
    * Gets the current state of the circuit-breaker.
    *

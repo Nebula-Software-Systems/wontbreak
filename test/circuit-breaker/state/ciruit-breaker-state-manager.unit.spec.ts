@@ -1,5 +1,5 @@
 import { CircuitBreakerPolicyType } from "../../../src/circuit-breaker/models/circuit-breaker-policy-type";
-import CircuitBreakerStateManager from "../../../src/circuit-breaker/state/ciruit-breaker-state-manager";
+import { CircuitBreakerStateManager } from "../../../src/circuit-breaker/state/ciruit-breaker-state-manager";
 
 describe("circuit state manager", () => {
   test("initial state of circuit is closed", () => {

@@ -1,6 +1,6 @@
 import { RetryIntervalStrategy } from "../models/retry-interval-options";
 import { RetryPolicyType } from "../models/retry-policy-type";
-import computeRetryBackoffForStrategyInSeconds from "../strategy/retry-backoff-strategy";
+import { computeRetryBackoffForStrategyInSeconds } from "../strategy/retry-backoff-strategy";
 import {
   doesResponseHaveStatusCodeBlockedForRetry,
   isCurrentAttemptBelowMaxNumberOfRetries as isNextAttemptBelowMaxNumberOfRetries,

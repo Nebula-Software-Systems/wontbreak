@@ -6,7 +6,7 @@
  *
  * @returns A promise resolved or rejected depending if the HTTP request succeded before the timeout happened (resolved) or not (rejected).
  */
-export default function executeHttpRequestWithTimeoutPolicy(
+export function executeHttpRequestWithTimeoutPolicy(
   promise: Promise<any>,
   timeoutInSeconds: number
 ): Promise<any> {

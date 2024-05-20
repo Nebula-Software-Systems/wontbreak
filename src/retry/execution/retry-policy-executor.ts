@@ -1,13 +1,13 @@
+import { IPolicyExecutor } from "../../@common/policy-executor-interface";
+import { Result } from "../../@common/result";
+import { executeHttpRequestWithTimeoutPolicy } from "../../timeout/execution/timeout-http-request-execution";
 import { RetryPolicyType } from "../models/retry-policy-type";
-import IPolicyExecutor from "../../@common/policy-executor-interface";
-import executeHttpRequestWithTimeoutPolicy from "../../timeout/execution/timeout-http-request-execution";
-import Result from "../../@common/result";
 import executeHttpRequestWithRetryPolicy from "./retry-http-request-execution";
 
 /**
  * Policy executor for requests we want to retry.
  */
-export default class RetryPolicyExecutor implements IPolicyExecutor {
+export class RetryPolicyExecutor implements IPolicyExecutor {
   private constructor(private retryPolicy: RetryPolicyType) {}
 
   async ExecutePolicyAsync<T>(httpRequest: Promise<any>): Promise<Result<T>> {

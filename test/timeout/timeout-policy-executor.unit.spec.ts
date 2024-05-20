@@ -1,8 +1,8 @@
 import { ComplexObject } from "./../@common/models/complex-object";
 import axios from "axios";
-import createTimedOutRequest from "../@common/utils/timeout-request-function";
-import PolicyExecutorFactory from "../../src/@common/policy-executor-factory";
 import MockAdapter from "axios-mock-adapter";
+import { PolicyExecutorFactory } from "../../src/@common/policy-executor-factory";
+import { createTimedOutRequest } from "../@common/utils/timeout-request-function";
 
 describe("Timeout", () => {
   let axiosMock;

@@ -1,7 +1,7 @@
 /**
  * Base abstract class for the errors thrown by the API calls.
  */
-export default abstract class BaseError {
+export abstract class BaseError {
   /**
    * Creates an instance of {@link BaseError}.
    *

@@ -1,13 +1,11 @@
 import { CircuitBreakerPolicyType } from "../models/circuit-breaker-policy-type";
 import { CircuitState } from "../models/circuit-state";
-import ICircuitBreakerStateManager from "./circuit-breaker-state-manager.interface";
+import { ICircuitBreakerStateManager } from "./circuit-breaker-state-manager.interface";
 
 /**
  * State machine manager class for the circuit-breaker.
  */
-export default class CircuitBreakerStateManager
-  implements ICircuitBreakerStateManager
-{
+export class CircuitBreakerStateManager implements ICircuitBreakerStateManager {
   private currentState = CircuitState.Closed;
   private onOpen: () => void;
   private onClose: () => void;
