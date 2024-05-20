@@ -1,9 +1,9 @@
-import Result from "./result";
+import { Result } from "./result";
 
 /**
  * Interface that defines the (timeout/retry/circuit-breaker) policy execution.
  */
-export default interface IPolicyExecutor {
+export interface IPolicyExecutor {
   /**
    * Executes an http request within a given policy context.
    *

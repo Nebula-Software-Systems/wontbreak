@@ -1,9 +1,9 @@
-import BaseError from "../../@common/base-error";
+import { BaseError } from "../../@common/base-error";
 
 /**
  * Error class for the API calls that occur when the circuit is open.
  */
-export default class CircuitBreakerError extends BaseError {
+export class CircuitBreakerError extends BaseError {
   private constructor(message: string, reason = "circuitBreaker") {
     super(reason, message);
   }

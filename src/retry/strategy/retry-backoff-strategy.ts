@@ -13,7 +13,7 @@ import { RetryIntervalStrategy } from "../models/retry-interval-options";
  *
  * @returns The interval to wait before the next retry.
  */
-export default function computeRetryBackoffForStrategyInSeconds(
+export function computeRetryBackoffForStrategyInSeconds(
   retryStrategy: RetryIntervalStrategy,
   nextRetryAttempt: number,
   baseSeconds: number = 1

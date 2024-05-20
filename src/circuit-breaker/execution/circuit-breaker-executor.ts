@@ -1,16 +1,16 @@
 import { RetryPolicyType } from "./../../retry/models/retry-policy-type";
-import PolicyExecutorFactory from "../../@common/policy-executor-factory";
-import IPolicyExecutor from "../../@common/policy-executor-interface";
-import Result from "../../@common/result";
 import { CircuitBreakerPolicyType } from "../models/circuit-breaker-policy-type";
-import ICircuitBreakerStateManager from "../state/circuit-breaker-state-manager.interface";
-import CircuitBreakerStateManager from "../state/ciruit-breaker-state-manager";
 import { CircuitState } from "../models/circuit-state";
+import { PolicyExecutorFactory } from "../../@common/policy-executor-factory";
+import { IPolicyExecutor } from "../../@common/policy-executor-interface";
+import { Result } from "../../@common/result";
+import { ICircuitBreakerStateManager } from "../state/circuit-breaker-state-manager.interface";
+import { CircuitBreakerStateManager } from "../state/ciruit-breaker-state-manager";
 
 /**
  * Policy executor for requests we want to maintain a circuit-breaker for.
  */
-export default class CircuitBreakerPolicyExecutor implements IPolicyExecutor {
+export class CircuitBreakerPolicyExecutor implements IPolicyExecutor {
   private retryPolicyExecutor: IPolicyExecutor;
 
   private constructor(

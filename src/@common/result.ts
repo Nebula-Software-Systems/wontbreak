@@ -1,14 +1,14 @@
-import CircuitBreakerError from "../circuit-breaker/models/circuit-breaker-error";
-import RetryError from "../retry/models/retry-error";
-import TimeoutError from "../timeout/models/timeout-error";
-import BaseError from "./base-error";
+import { CircuitBreakerError } from "../circuit-breaker/models/circuit-breaker-error";
+import { RetryError } from "../retry/models/retry-error";
+import { TimeoutError } from "../timeout/models/timeout-error";
+import { BaseError } from "./base-error";
 
 /**
  * Class that defines the output of our execution policies and serves as the base response return.
  *
  * @typeParam T - Defines the data type expected from the HTTP request.
  */
-export default class Result<T> {
+export class Result<T> {
   /**
    * Creates an instance of {@link Result}.
    *

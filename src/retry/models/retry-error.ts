@@ -1,9 +1,9 @@
-import BaseError from "../../@common/base-error";
+import { BaseError } from "../../@common/base-error";
 
 /**
  * Error class for the API calls that exceed the maximum number of retries.
  */
-export default class RetryError extends BaseError {
+export class RetryError extends BaseError {
   private constructor(message: string, reason = "retry") {
     super(reason, message);
   }

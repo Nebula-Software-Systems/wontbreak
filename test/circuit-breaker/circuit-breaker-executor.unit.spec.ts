@@ -1,8 +1,8 @@
 import axios from "axios";
-import PolicyExecutorFactory from "../../src/@common/policy-executor-factory";
 import { RetryIntervalStrategy } from "../../src/retry/models/retry-interval-options";
 import { CircuitState } from "../../src/circuit-breaker/models/circuit-state";
 import MockAdapter from "axios-mock-adapter";
+import { PolicyExecutorFactory } from "../../src/@common/policy-executor-factory";
 
 describe("Circuit breaker", () => {
   test("circuit state changes from closed to half-opened when number of retries exceeds maximum", async () => {

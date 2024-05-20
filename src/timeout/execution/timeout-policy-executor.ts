@@ -1,12 +1,12 @@
+import { IPolicyExecutor } from "../../@common/policy-executor-interface";
+import { Result } from "../../@common/result";
 import { TimeoutPolicyType } from "../models/timeout-policy-type";
-import IPolicyExecutor from "../../@common/policy-executor-interface";
-import executeHttpRequestWithTimeoutPolicy from "./timeout-http-request-execution";
-import Result from "../../@common/result";
+import { executeHttpRequestWithTimeoutPolicy } from "./timeout-http-request-execution";
 
 /**
  * Policy executor for requests we want to attach a timeout to.
  */
-export default class TimeoutPolicyExecutor implements IPolicyExecutor {
+export class TimeoutPolicyExecutor implements IPolicyExecutor {
   private constructor(private timeoutPolicy: TimeoutPolicyType) {}
 
   async ExecutePolicyAsync<T>(httpRequest: Promise<any>): Promise<Result<T>> {
