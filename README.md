@@ -1,22 +1,22 @@
 <h1 align="center">
-  nebula-http-resiliency
+  wontbreak
 </h1>
 <p align="center">
   Make your axios requests more resilient.
 </p>
 
-[![Coverage Status](https://coveralls.io/repos/github/Nebula-Software-Systems/nebula-http-resiliency/badge.svg?branch=main)](https://coveralls.io/github/Nebula-Software-Systems/nebula-http-resiliency?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/Nebula-Software-Systems/wontbreak/badge.svg?branch=main)](https://coveralls.io/github/Nebula-Software-Systems/wontbreak?branch=main)
 
-![NPM Downloads](https://img.shields.io/npm/d18m/nebula-http-resiliency)
+![NPM Downloads](https://img.shields.io/npm/d18m/wontbreak)
 
 ## About
 
-nebula-http-resiliency is an Open-Source library that allows you to make your axios requests more resilient.
+wontbreak is an Open-Source library that allows you to make your axios requests more resilient.
 We provide an implementation for 3 common resiliency algorithms: timeout, retry, and circuit-breaker.
 
 ## Install Package
 ```shell
-$ npm install nebula-http-resiliency
+$ npm install wontbreak
 ```
 
 ## Usage
@@ -67,6 +67,6 @@ There are several ways you can contribute, namely:
 
 ## License
 
-nebula-http-resiliency is a free and open-source software licensed under the MIT License.
+wontbreak is a free and open-source software licensed under the MIT License.
 
 See [LICENSE](LICENSE) for more details.
