@@ -15,7 +15,7 @@
     "tsup": "^8.0.2",
     "typedoc": "^0.25.13"
   },
-  "name": "nebula-http-resiliency",
+  "name": "wontbreak",
   "version": "1.0.0",
   "description": "Allows you to have resilient http calls.",
   "main": "./dist/index.js",
