@@ -16,7 +16,7 @@
     "typedoc": "^0.25.13"
   },
   "name": "wontbreak",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Allows you to have resilient http calls.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
