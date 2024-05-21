@@ -16,7 +16,7 @@
     "typedoc": "^0.25.13"
   },
   "name": "wontbreak",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Allows you to have resilient http calls.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -225,7 +225,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Nebula-Software-Systems/nebula-http-resiliency.git"
+    "url": "git+https://github.com/Nebula-Software-Systems/wontbreak.git"
   },
   "keywords": [
     "javascript",
@@ -237,7 +237,7 @@
   "author": "Nebula-Software-Systems",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Nebula-Software-Systems/nebula-http-resiliency/issues"
+    "url": "https://github.com/Nebula-Software-Systems/wontbreak/issues"
   },
-  "homepage": "https://github.com/Nebula-Software-Systems/nebula-http-resiliency#readme"
+  "homepage": "https://github.com/Nebula-Software-Systems/wontbreak#readme"
 }
