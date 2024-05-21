@@ -169,7 +169,7 @@
     "picocolors": "^1.0.0",
     "picomatch": "^4.0.2",
     "pirates": "^4.0.6",
-    "pkg-dir": "^4.2.0",
+    "pkg-dir": "^8.0.0",
     "pretty-format": "^29.7.0",
     "prompts": "^2.4.2",
     "pure-rand": "^6.1.0",
