@@ -14,6 +14,9 @@
 wontbreak is an Open-Source library that allows you to make your axios requests more resilient.
 We provide an implementation for 3 common resiliency algorithms: timeout, retry, and circuit-breaker.
 
+> [!CAUTION]
+> The retry and circuit-breaker algorithms, although implemented, are currently being fixed, so expect inconsistent behavior on them.
+
 ## Install Package
 ```shell
 $ npm install wontbreak
