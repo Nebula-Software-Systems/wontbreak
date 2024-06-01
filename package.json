@@ -5,7 +5,7 @@
     "@types/jest": "^29.5.12",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
-    "axios": "^1.6.8",
+    "axios": "^1.7.2",
     "axios-mock-adapter": "^1.22.0",
     "eslint": "^8.57.0",
     "husky": "^9.0.11",
@@ -16,7 +16,7 @@
     "typedoc": "^0.25.13"
   },
   "name": "wontbreak",
-  "version": "1.0.2",
+  "version": "1.0.9",
   "description": "Allows you to have resilient http calls.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -29,6 +29,7 @@
     "test": "test"
   },
   "dependencies": {
+    "@types/axios": "^0.14.0",
     "ansi-escapes": "^4.3.2",
     "ansi-regex": "^5.0.1",
     "ansi-styles": "^4.3.0",

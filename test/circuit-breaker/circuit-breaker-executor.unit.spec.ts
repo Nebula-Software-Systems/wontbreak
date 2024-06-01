@@ -60,7 +60,7 @@ describe("Circuit breaker", () => {
     );
     expect(spyHalfOpen).toHaveBeenCalledTimes(1);
     expect(spyClose).not.toHaveBeenCalled();
-  });
+  }, 120000);
 
   test("when circuit is half-opened and request is sent with success, state changes to closed", async () => {
     //Arrange

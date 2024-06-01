@@ -19,7 +19,7 @@ We provide an implementation for 3 common resiliency algorithms: timeout, retry,
 
 ## Install Package
 ```shell
-$ npm install wontbreak
+npm install wontbreak
 ```
 
 ## Usage
@@ -29,6 +29,8 @@ The way of using each strategy is pretty much the same.
 The first step is always to choose a specific strategy. In this case let's go with timeout.
 
 ```js
+import { PolicyExecutorFactory } from "wontbreak";
+
 const timeoutPolicyExecutor =
   PolicyExecutorFactory.createTimeoutHttpExecutor({
     timeoutInSeconds: 0.2,

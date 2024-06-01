@@ -1,11 +1,8 @@
+import axios from "axios";
 import { RetryIntervalStrategy } from "../models/retry-interval-options";
 import { RetryPolicyType } from "../models/retry-policy-type";
 import { computeRetryBackoffForStrategyInSeconds } from "../strategy/retry-backoff-strategy";
-import {
-  doesResponseHaveStatusCodeBlockedForRetry,
-  isCurrentAttemptBelowMaxNumberOfRetries as isNextAttemptBelowMaxNumberOfRetries,
-  retryWithBackoff,
-} from "./utils/retry-utils";
+import { doesResponseHaveStatusCodeBlockedForRetry } from "./utils/retry-utils";
 
 /**
  * Executes the current HTTP request with a retry policy.
@@ -48,52 +45,47 @@ async function executeHttpRequestWithRetry(
       );
     }
 
-    const nextAttempt = currentAttempt + 1;
+    for (let i = 1; i <= retryPolicyType.maxNumberOfRetries; i++) {
+      const nextAttempt = currentAttempt + 1;
+      currentAttempt++;
+      const retryBackoffStrategy =
+        retryPolicyType.retryIntervalStrategy ??
+        RetryIntervalStrategy.Linear_With_Jitter;
 
-    if (
-      isNextAttemptBelowMaxNumberOfRetries(
-        nextAttempt,
-        retryPolicyType.maxNumberOfRetries
-      )
-    ) {
-      return retryHttpRequest(httpRequest, nextAttempt, retryPolicyType);
-    } else {
-      throw new Error(
-        `The number of retries (${retryPolicyType.maxNumberOfRetries}) has exceeded.`
-      );
+      const backoffRetryIntervalInSeconds =
+        computeRetryBackoffForStrategyInSeconds(
+          retryBackoffStrategy,
+          nextAttempt,
+          retryPolicyType.baseRetryDelayInSeconds
+        );
+
+      await waitFor(backoffRetryIntervalInSeconds * 1000);
+
+      try {
+        return await axios({
+          method: error.config.method,
+          url: error.config.url,
+          headers: { ...error.config.headers },
+          data: { ...error.config.data },
+          proxy: false,
+          timeout: 5000,
+        });
+      } catch (error) {
+        continue;
+      }
     }
+
+    throw new Error(
+      `The number of retries (${retryPolicyType.maxNumberOfRetries}) has exceeded.`
+    );
   }
 }
 
 /**
- * Executes the current HTTP request with a retry policy.
- *
- * @param httpRequest The current HTTP request.
- *
- * @param nextAttempt The next retry attempt.
- *
- * @param retryPolicyType The retry policy type, from {@link RetryPolicyType}.
- *
- * @returns A promise stating if the HTTP request was successful (resolved) or not (rejected when exceeds maximum amount of retry attempts).
+ * Simulates a waiting time
+ * @param timeoutInMilli Time to wait in milliseconds.
+ * @returns A promise that gets resolved after a given amount of time defined in {@link timeoutInMilli}.
  */
-function retryHttpRequest(
-  httpRequest: Promise<any>,
-  nextAttempt: number,
-  retryPolicyType: RetryPolicyType
-) {
-  const retryBackoffStrategy =
-    retryPolicyType.retryIntervalStrategy ??
-    RetryIntervalStrategy.Linear_With_Jitter;
-
-  const backoffRetryIntervalInSeconds = computeRetryBackoffForStrategyInSeconds(
-    retryBackoffStrategy,
-    nextAttempt,
-    retryPolicyType.baseRetryDelayInSeconds
-  );
-
-  return retryWithBackoff(
-    () =>
-      executeHttpRequestWithRetry(httpRequest, nextAttempt, retryPolicyType),
-    backoffRetryIntervalInSeconds
-  );
+function waitFor(timeoutInMilli: number) {
+  return new Promise((resolve) => setTimeout(resolve, timeoutInMilli));
 }
