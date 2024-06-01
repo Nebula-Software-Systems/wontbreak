@@ -74,7 +74,7 @@
     "escalade": "^3.1.2",
     "escape-string-regexp": "^5.0.0",
     "esprima": "^4.0.1",
-    "execa": "^8.0.1",
+    "execa": "^9.1.0",
     "exit": "^0.1.2",
     "expect": "^29.7.0",
     "fast-json-stable-stringify": "^2.1.0",
@@ -92,13 +92,13 @@
     "graceful-fs": "^4.2.11",
     "has-flag": "^4.0.0",
     "hasown": "^2.0.2",
-    "html-escaper": "^2.0.2",
+    "html-escaper": "^3.0.3",
     "human-signals": "^7.0.0",
     "import-local": "^3.1.0",
     "imurmurhash": "^0.1.4",
     "inflight": "^1.0.6",
     "inherits": "^2.0.4",
-    "is-arrayish": "^0.2.1",
+    "is-arrayish": "^0.3.2",
     "is-core-module": "^2.13.1",
     "is-fullwidth-code-point": "^3.0.0",
     "is-generator-fn": "^3.0.0",
@@ -170,7 +170,7 @@
     "picocolors": "^1.0.0",
     "picomatch": "^4.0.2",
     "pirates": "^4.0.6",
-    "pkg-dir": "^4.2.0",
+    "pkg-dir": "^8.0.0",
     "pretty-format": "^29.7.0",
     "prompts": "^2.4.2",
     "pure-rand": "^6.1.0",
@@ -226,7 +226,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Nebula-Software-Systems/nebula-http-resiliency.git"
+    "url": "git+https://github.com/Nebula-Software-Systems/wontbreak.git"
   },
   "keywords": [
     "javascript",
@@ -238,7 +238,7 @@
   "author": "Nebula-Software-Systems",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Nebula-Software-Systems/nebula-http-resiliency/issues"
+    "url": "https://github.com/Nebula-Software-Systems/wontbreak/issues"
   },
-  "homepage": "https://github.com/Nebula-Software-Systems/nebula-http-resiliency#readme"
+  "homepage": "https://github.com/Nebula-Software-Systems/wontbreak#readme"
 }
