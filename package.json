@@ -142,7 +142,7 @@
     "json5": "^2.2.3",
     "kleur": "^3.0.3",
     "leven": "^4.0.0",
-    "lines-and-columns": "^1.2.4",
+    "lines-and-columns": "^2.0.4",
     "locate-path": "^7.2.0",
     "lru-cache": "^5.1.1",
     "make-dir": "^4.0.0",
