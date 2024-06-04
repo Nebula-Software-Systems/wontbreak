@@ -86,7 +86,7 @@
     "gensync": "^1.0.0-beta.2",
     "get-caller-file": "^2.0.5",
     "get-package-type": "^0.1.0",
-    "get-stream": "^6.0.1",
+    "get-stream": "^9.0.1",
     "glob": "^7.2.3",
     "globals": "^11.12.0",
     "graceful-fs": "^4.2.11",
