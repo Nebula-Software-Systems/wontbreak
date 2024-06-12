@@ -33,7 +33,7 @@ export function computeRetryBackoffForStrategyInMilli(
     }
     case RetryIntervalStrategy.Linear_With_Jitter:
     default: {
-      return (baseMilli * nextRetryAttempt + Math.random()) * 1000;
+      return baseMilli * nextRetryAttempt + Math.random();
     }
   }
 }

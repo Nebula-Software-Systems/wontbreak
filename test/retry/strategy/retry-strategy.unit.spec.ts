@@ -10,65 +10,65 @@ describe("retry backoff strategy", () => {
     const backoffTimeFirstTry = computeRetryBackoffForStrategyInMilli(
       RetryIntervalStrategy.Constant,
       1,
-      10
+      10000
     );
 
     const backoffTimeSecondTry = computeRetryBackoffForStrategyInMilli(
       RetryIntervalStrategy.Constant,
       2,
-      10
+      10000
     );
 
     //Assert
-    expect(backoffTimeFirstTry).toBe(10);
-    expect(backoffTimeSecondTry).toBe(10);
+    expect(backoffTimeFirstTry).toBe(10000);
+    expect(backoffTimeSecondTry).toBe(10000);
     expect(backoffTimeSecondTry - backoffTimeFirstTry).toBe(constantIncrement);
   });
 
   test("linear", async () => {
     //Arrange
-    const linearIncrement = 10;
+    const linearIncrement = 10000;
 
     //Act
     const backoffTimeFirstTry = computeRetryBackoffForStrategyInMilli(
       RetryIntervalStrategy.Linear,
       1,
-      10
+      10000
     );
 
     const backoffTimeSecondTry = computeRetryBackoffForStrategyInMilli(
       RetryIntervalStrategy.Linear,
       2,
-      10
+      10000
     );
 
     //Assert
-    expect(backoffTimeFirstTry).toBe(10);
-    expect(backoffTimeSecondTry).toBe(20);
+    expect(backoffTimeFirstTry).toBe(10000);
+    expect(backoffTimeSecondTry).toBe(20000);
     expect(backoffTimeSecondTry - backoffTimeFirstTry).toBe(linearIncrement);
   });
 
   test("linear with jitter", async () => {
     //Arrange
-    const minimumLinearIncrement = 9;
-    const maximumLinearIncrement = 11;
+    const minimumLinearIncrement = 9000;
+    const maximumLinearIncrement = 11000;
 
     //Act
     const backoffTimeFirstTry = computeRetryBackoffForStrategyInMilli(
       RetryIntervalStrategy.Linear_With_Jitter,
       1,
-      10
+      10000
     );
 
     const backoffTimeSecondTry = computeRetryBackoffForStrategyInMilli(
       RetryIntervalStrategy.Linear_With_Jitter,
       2,
-      10
+      10000
     );
 
     //Assert
-    expect(backoffTimeFirstTry).toBeGreaterThan(10);
-    expect(backoffTimeSecondTry).toBeGreaterThan(20);
+    expect(backoffTimeFirstTry).toBeGreaterThan(10000);
+    expect(backoffTimeSecondTry).toBeGreaterThan(20000);
     expect(backoffTimeSecondTry - backoffTimeFirstTry).toBeGreaterThanOrEqual(
       minimumLinearIncrement
     );
@@ -79,8 +79,8 @@ describe("retry backoff strategy", () => {
 
   test("exponential", async () => {
     //Arrange
-    const expectedFirstTryBackoff = Math.pow(2, 1);
-    const expectedFirstSecondBackoff = Math.pow(2, 2);
+    const expectedFirstTryBackoff = Math.pow(2, 1) * 1000;
+    const expectedFirstSecondBackoff = Math.pow(2, 2) * 1000;
 
     //Act
     const backoffTimeFirstTry = computeRetryBackoffForStrategyInMilli(
@@ -103,8 +103,8 @@ describe("retry backoff strategy", () => {
 
   test("exponential with jitter", async () => {
     //Arrange
-    const minimumFirstTryBackoff = Math.pow(2, 1);
-    const minimumSecondTryBackoff = Math.pow(2, 2);
+    const minimumFirstTryBackoff = Math.pow(2, 1) * 1000;
+    const minimumSecondTryBackoff = Math.pow(2, 2) * 1000;
 
     //Act
     const backoffTimeFirstTry = computeRetryBackoffForStrategyInMilli(
@@ -121,10 +121,10 @@ describe("retry backoff strategy", () => {
     expect(backoffTimeFirstTry).toBeGreaterThan(minimumFirstTryBackoff);
     expect(backoffTimeSecondTry).toBeGreaterThan(minimumSecondTryBackoff);
     expect(backoffTimeSecondTry - backoffTimeFirstTry).toBeGreaterThan(
-      minimumSecondTryBackoff - minimumFirstTryBackoff - 1
+      minimumSecondTryBackoff - minimumFirstTryBackoff - 1000
     );
     expect(backoffTimeSecondTry - backoffTimeFirstTry).toBeLessThan(
-      minimumSecondTryBackoff - minimumFirstTryBackoff + 1
+      minimumSecondTryBackoff - minimumFirstTryBackoff + 1000
     );
   });
 });
