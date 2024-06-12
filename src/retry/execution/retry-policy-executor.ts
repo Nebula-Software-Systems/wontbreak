@@ -12,21 +12,21 @@ export class RetryPolicyExecutor implements IPolicyExecutor {
 
   async ExecutePolicyAsync<T>(httpRequest: Promise<any>): Promise<Result<T>> {
     try {
-      const httpRequestToExecute = !this.retryPolicy.timeoutPerRetryInSeconds
+      const httpRequestToExecute = !this.retryPolicy.timeoutPerRetryInMilli
         ? httpRequest
         : executeHttpRequestWithTimeoutPolicy(
             httpRequest,
-            this.retryPolicy.timeoutPerRetryInSeconds
+            this.retryPolicy.timeoutPerRetryInMilli
           );
 
-      const httpResult = await executeHttpRequestWithRetryPolicy(
+      const { data } = await executeHttpRequestWithRetryPolicy(
         httpRequestToExecute,
         this.retryPolicy
       );
 
-      return Result.createSuccessHttpResult<T>(httpResult.data);
-    } catch (error: any) {
-      return Result.createRetryErrorResult(error.message as string);
+      return Result.createSuccessHttpResult<T>(data);
+    } catch ({ message }: any) {
+      return Result.createRetryErrorResult(message as string);
     }
   }
 

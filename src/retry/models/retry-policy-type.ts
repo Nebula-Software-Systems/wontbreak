@@ -21,29 +21,29 @@ export type RetryPolicyType = {
   retryIntervalStrategy?: RetryIntervalStrategy;
 
   /**
-   * Represents a constant, in seconds, of the retry backoff interval computation.
+   * Represents a constant, in milliseconds, of the retry backoff interval computation.
    *
    * @remarks
    *
    * This vaue is only useful when you chose the Constant strategy or any of the Linear strategies in {@link RetryIntervalStrategy}.
    *
-   * @defaultValue 1
+   * @defaultValue 1000
    *
-   * @example 0.3
+   * @example 300
    */
-  baseRetryDelayInSeconds?: number;
+  baseRetryDelayInMilli?: number;
 
   /**
-   * Maximum amount of time a request should take, in seconds.
+   * Maximum amount of time a request should take, in milliseconds.
    *
    * @remarks
    *
    * If this is not specified, the request will be kept executing until something
    * eventually comes out from the server
    *
-   * @example 0.5
+   * @example 500
    */
-  timeoutPerRetryInSeconds?: number;
+  timeoutPerRetryInMilli?: number;
 
   /**
    * The HTTP Status code that, when received from the server, shouldn't be considered for a retry.
