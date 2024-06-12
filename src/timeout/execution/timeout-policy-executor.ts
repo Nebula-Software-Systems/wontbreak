@@ -11,11 +11,11 @@ export class TimeoutPolicyExecutor implements IPolicyExecutor {
 
   async ExecutePolicyAsync<T>(httpRequest: Promise<any>): Promise<Result<T>> {
     try {
-      const httpResult = await executeHttpRequestWithTimeoutPolicy(
+      const { data } = await executeHttpRequestWithTimeoutPolicy(
         httpRequest,
-        this.timeoutPolicy.timeoutInSeconds
+        this.timeoutPolicy.timeoutInMilli
       );
-      return Result.createSuccessHttpResult<T>(httpResult.data);
+      return Result.createSuccessHttpResult<T>(data);
     } catch (error) {
       return Result.createTimedOutErrorResult(error as string);
     }

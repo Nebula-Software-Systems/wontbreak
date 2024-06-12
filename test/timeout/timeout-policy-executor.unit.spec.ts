@@ -24,10 +24,10 @@ describe("Timeout", () => {
     //Arrange
     const timeoutPolicyExecutor =
       PolicyExecutorFactory.createTimeoutHttpExecutor({
-        timeoutInSeconds: 0.2,
+        timeoutInMilli: 200,
       });
 
-    const httpRequest = createTimedOutRequest(axios.get("/complex"), 0.6);
+    const httpRequest = createTimedOutRequest(axios.get("/complex"), 600);
 
     //Act
     const httpResult =
@@ -40,7 +40,7 @@ describe("Timeout", () => {
     expect(httpResult.error).not.toEqual(null);
     expect(httpResult.error?.reason).toBe("timeout");
     expect(httpResult.error?.message).toBe(
-      "A timeout has occured. Timeout defined: 0.2 seconds."
+      "A timeout has occured. Timeout defined: 200 milliseconds."
     );
   });
 
@@ -48,7 +48,7 @@ describe("Timeout", () => {
     //Arrange
     const timeoutPolicyExecutor =
       PolicyExecutorFactory.createTimeoutHttpExecutor({
-        timeoutInSeconds: 0.5,
+        timeoutInMilli: 500,
       });
 
     //Act
