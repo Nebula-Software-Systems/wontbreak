@@ -17,9 +17,9 @@ describe("Circuit breaker", () => {
     const circuitBreakerType = {
       maxNumberOfRetriesBeforeCircuitIsOpen: 1,
       retryIntervalStrategy: RetryIntervalStrategy.Constant,
-      baseRetryDelayInSeconds: 0.5,
-      timeoutPerRetryInSeconds: 2,
-      circuitOpenDurationInSeconds: 3,
+      baseRetryDelayInMilli: 500,
+      timeoutPerRetryInMilli: 2000,
+      circuitOpenDurationInMilli: 3000,
       onClose: () => console.log("custom close"),
       onHalfOpen: () => console.log("custom half open"),
       onOpen: () => console.log("custom open"),
@@ -44,7 +44,7 @@ describe("Circuit breaker", () => {
     expect(httpResult.error).not.toBeNull();
     expect(httpResult.error?.reason).toBe("circuitBreaker");
     expect(httpResult.error?.message).toBe(
-      "Your request could not be processed. The circuit has been opened for 3 seconds."
+      "Your request could not be processed. The circuit has been opened for 3000 milliseconds."
     );
     expect(circuitBreakerExecutor.getCurrentCircuitState()).toBe(
       CircuitState.Opened
@@ -73,9 +73,9 @@ describe("Circuit breaker", () => {
     const circuitBreakerType = {
       maxNumberOfRetriesBeforeCircuitIsOpen: 1,
       retryIntervalStrategy: RetryIntervalStrategy.Constant,
-      baseRetryDelayInSeconds: 0.5,
-      timeoutPerRetryInSeconds: 2,
-      circuitOpenDurationInSeconds: 3,
+      baseRetryDelayInMilli: 500,
+      timeoutPerRetryInMilli: 2000,
+      circuitOpenDurationInMilli: 3000,
       onClose: () => console.log("custom close"),
       onHalfOpen: () => console.log("custom half open"),
       onOpen: () => console.log("custom open"),
@@ -125,9 +125,9 @@ describe("Circuit breaker", () => {
     const circuitBreakerType = {
       maxNumberOfRetriesBeforeCircuitIsOpen: 1,
       retryIntervalStrategy: RetryIntervalStrategy.Constant,
-      baseRetryDelayInSeconds: 0.5,
-      timeoutPerRetryInSeconds: 2,
-      circuitOpenDurationInSeconds: 3,
+      baseRetryDelayInMilli: 500,
+      timeoutPerRetryInMilli: 2000,
+      circuitOpenDurationInMilli: 3000,
       onClose: () => console.log("custom close"),
       onHalfOpen: () => {},
       onOpen: () => console.log("custom open"),
@@ -157,7 +157,7 @@ describe("Circuit breaker", () => {
     expect(httpResult.error).not.toBeNull();
     expect(httpResult.error?.reason).toBe("circuitBreaker");
     expect(httpResult.error?.message).toBe(
-      "Your request could not be processed. The circuit has been opened for 3 seconds."
+      "Your request could not be processed. The circuit has been opened for 3000 milliseconds."
     );
     expect(circuitBreakerExecutor.getCurrentCircuitState()).toBe(
       CircuitState.Opened
@@ -179,9 +179,9 @@ describe("Circuit breaker", () => {
     const circuitBreakerType = {
       maxNumberOfRetriesBeforeCircuitIsOpen: 1,
       retryIntervalStrategy: RetryIntervalStrategy.Constant,
-      baseRetryDelayInSeconds: 0.5,
-      timeoutPerRetryInSeconds: 2,
-      circuitOpenDurationInSeconds: 3,
+      baseRetryDelayInMilli: 500,
+      timeoutPerRetryInMilli: 2000,
+      circuitOpenDurationInMilli: 3000,
       onClose: () => console.log("custom close"),
       onHalfOpen: () => {},
       onOpen: () => console.log("custom open"),
@@ -208,7 +208,7 @@ describe("Circuit breaker", () => {
     expect(httpResult.error).not.toBeNull();
     expect(httpResult.error?.reason).toBe("circuitBreaker");
     expect(httpResult.error?.message).toBe(
-      "Your request could not be processed. The circuit has been opened for 3 seconds."
+      "Your request could not be processed. The circuit has been opened for 3000 milliseconds."
     );
     expect(circuitBreakerExecutor.getCurrentCircuitState()).toBe(
       CircuitState.Opened

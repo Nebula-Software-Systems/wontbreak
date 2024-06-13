@@ -29,25 +29,25 @@ export class CircuitBreakerPolicyExecutor implements IPolicyExecutor {
   async ExecutePolicyAsync<T>(httpRequest: Promise<any>): Promise<Result<T>> {
     if (this.circuitBreakerStateManager.isCurrentStateOpen()) {
       return Result.createCircuitOpenedErrorResult(
-        this.circuitBreakerPolicy.circuitOpenDurationInSeconds
+        this.circuitBreakerPolicy.circuitOpenDurationInMilli
       );
     }
 
-    const httpResult = await this.retryPolicyExecutor.ExecutePolicyAsync<T>(
+    const { data } = await this.retryPolicyExecutor.ExecutePolicyAsync<T>(
       httpRequest
     );
 
-    if (httpResult.data) {
+    if (data) {
       if (this.circuitBreakerStateManager.isCurrentStateHalfOpen()) {
         this.circuitBreakerStateManager.moveStateToClosed();
       }
 
-      return Result.createSuccessHttpResult<T>(httpResult.data);
+      return Result.createSuccessHttpResult<T>(data);
     } else {
       this.circuitBreakerStateManager.moveStateToOpen();
 
       return Result.createCircuitOpenedErrorResult(
-        this.circuitBreakerPolicy.circuitOpenDurationInSeconds
+        this.circuitBreakerPolicy.circuitOpenDurationInMilli
       );
     }
   }

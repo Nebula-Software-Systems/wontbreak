@@ -57,15 +57,15 @@ export class Result<T> {
   /**
    * Creates a {@link Result | response} that represents an HTTP request made during the circuit-breaker open stage.
    *
-   * @param circuitOpenDurationInSeconds How long the circuit will be opened for.
+   * @param circuitOpenDurationInMilli How long the circuit will be opened for.
    *
-   * @returns An instance of {@link Result} with the error field containing the {@link circuitOpenDurationInSeconds} content.
+   * @returns An instance of {@link Result} with the error field containing the {@link circuitOpenDurationInMilli} content.
    */
   static createCircuitOpenedErrorResult<T>(
-    circuitOpenDurationInSeconds: number
+    circuitOpenDurationInMilli: number
   ) {
     const circuitBreakerError = CircuitBreakerError.createCircuitOpenError(
-      circuitOpenDurationInSeconds
+      circuitOpenDurationInMilli
     );
     return new Result(null as T, circuitBreakerError);
   }
