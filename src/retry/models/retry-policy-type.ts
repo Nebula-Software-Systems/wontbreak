@@ -7,9 +7,11 @@ export type RetryPolicyType = {
   /**
    * Maximum number of retries allowed after the first attempt has failed.
    *
-   * @example 3
+   * @example 5
+   *
+   * @defaultValue 3
    */
-  maxNumberOfRetries: number;
+  maxNumberOfRetries?: number;
 
   /**
    * The retry backoff strategy from the {@link RetryIntervalStrategy | list of options}.
