@@ -6,4 +6,4 @@ There are two important fields to have in consideration: _data_ and _error_.
 
 The _data_ field represents the data you get from the API endpoint, with the type you provided when calling _ExecutePolicyAsync_.
 
-The _error_ field represents any errors that might have happened throughout the strategy execution. Errors expected include timeouts, exceeded retry attempts and performing requests when the circuit is opened.
+The _error_ field represents any errors that might have happened throughout the strategy execution. Errors expected include timeouts, exceeded retry attempts and performing requests while the circuit is open (circuit breaker).

@@ -30,7 +30,7 @@ import { PolicyExecutorFactory } from "wontbreak";
 
 const timeoutPolicyExecutor =
   PolicyExecutorFactory.createTimeoutHttpExecutor({
-    timeoutInSeconds: 0.2,
+    timeoutInMilli: 300,
   });
 ```
 
