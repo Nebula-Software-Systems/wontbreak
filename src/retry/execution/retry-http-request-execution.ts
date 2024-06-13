@@ -45,7 +45,9 @@ async function executeHttpRequestWithRetry(
       );
     }
 
-    for (let i = 1; i <= retryPolicyType.maxNumberOfRetries; i++) {
+    const maxNumberOfRetries = retryPolicyType.maxNumberOfRetries ?? 3;
+
+    for (let i = 1; i <= maxNumberOfRetries; i++) {
       const nextAttempt = currentAttempt + 1;
       currentAttempt++;
       const retryBackoffStrategy =
@@ -75,7 +77,7 @@ async function executeHttpRequestWithRetry(
     }
 
     throw new Error(
-      `The number of retries (${retryPolicyType.maxNumberOfRetries}) has exceeded.`
+      `The number of retries (${maxNumberOfRetries}) has exceeded.`
     );
   }
 }

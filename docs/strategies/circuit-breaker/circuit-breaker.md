@@ -16,7 +16,7 @@ const circuitBreakerPolicyExecutor =
   });
 ```
 
-The _createCircuitBreakerHttpExecutor_ method takes a [configuration object](../../../src/timeout/models/timeout-policy-type) to properly configure the circuit-breaker policy.
+The _createCircuitBreakerHttpExecutor_ method takes a [configuration object](../../../src/circuit-breaker/models/circuit-breaker-policy-type.ts) to properly configure the circuit-breaker policy.
 
 Let's take a closer look at the fields.
 
@@ -29,7 +29,7 @@ Our circuit-breaker can be enabled by retry policies. The fields mentioned above
 
 If no retry mechanism is wanted, just place _maxNumberOfRetriesBeforeCircuitIsOpen_ as 1 and ignore all the remaining fields.
 
-A note about the _maxNumberOfRetriesBeforeCircuitIsOpen_ property. As the name suggests, after the amount of retries specified here, the circuit will be open and the circuit-breaker state machine will start.
+A note about the _maxNumberOfRetriesBeforeCircuitIsOpen_ property. As the name suggests, after the amount of retries specified here, the circuit will be open and the circuit-breaker state machine will start. If no value is specified here, the default value of 3 will be assumed.
 
 ### circuitOpenDurationInMilli
 Whenever the maximum amount of retries is reached, the circuit is going from the state _CLOSED_ to the state _OPENED_, and will remaing in such state for the amount of milliseconds specified here.

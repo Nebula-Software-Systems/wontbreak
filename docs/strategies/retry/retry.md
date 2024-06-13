@@ -15,8 +15,10 @@ The _createRetryHttpExecutor_ method takes a [configuration object](../../../src
 
 Let's take a closer look at the fields.
 
-### maxNumberOfRetries
+### (optional) maxNumberOfRetries
 Reflects the maximum number of retries before a retry error is thrown under the _error_ property on the [result object](../../result/result.md).
+
+The default value for this, if none specified, is 3.
 
 The retry interval strategy itself is defined in the _retryIntervalStrategy_ property.
 

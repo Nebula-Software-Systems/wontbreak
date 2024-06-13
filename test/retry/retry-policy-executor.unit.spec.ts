@@ -24,7 +24,7 @@ describe("Retry with constant backoff", () => {
   test("error thrown when number of retries exceeds", async () => {
     //Arrange
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
-      maxNumberOfRetries: 3,
+      maxNumberOfRetries: 5,
       retryIntervalStrategy: RetryIntervalStrategy.Constant,
       baseRetryDelayInMilli: 200,
     });
@@ -48,7 +48,7 @@ describe("Retry with constant backoff", () => {
     expect(httpResult.error).not.toEqual(null);
     expect(httpResult.error?.reason).toBe("retry");
     expect(httpResult.error?.message).toBe(
-      "The number of retries (3) has exceeded."
+      "The number of retries (5) has exceeded."
     );
   }, 1200000);
 
@@ -772,4 +772,50 @@ describe("Retry with http request returning non-valid http status code for retry
       );
     });
   }
+});
+
+describe("Retry with default value for retry attempts", () => {
+  let axiosMock;
+  beforeAll(() => {
+    axiosMock = new MockAdapter(axios);
+
+    axiosMock.onGet("/complex").reply(200, {
+      name: "Name",
+      age: 65,
+      address: {
+        street: "Street",
+        zipCode: "ZCode",
+      },
+    });
+  });
+
+  test("error thrown when number of retries exceeds", async () => {
+    //Arrange
+    const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
+      retryIntervalStrategy: RetryIntervalStrategy.Constant,
+      baseRetryDelayInMilli: 200,
+    });
+
+    const httpRequest = () => {
+      return new Promise((_, reject) => {
+        setTimeout(() => {
+          reject("You shall not pass!");
+        }, 300);
+      });
+    };
+
+    //Act
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        httpRequest()
+      );
+
+    //Assert
+    expect(httpResult.data).toBeNull();
+    expect(httpResult.error).not.toEqual(null);
+    expect(httpResult.error?.reason).toBe("retry");
+    expect(httpResult.error?.message).toBe(
+      "The number of retries (3) has exceeded."
+    );
+  }, 1200000);
 });

@@ -7,9 +7,12 @@ export type CircuitBreakerPolicyType = {
   /**
    * Maximum number of retries allowed before the circuit-breaker goes to the open state.
    *
-   * @example 3
+   * @example 5
+   *
+   * @defaultValue 3
+   *
    */
-  maxNumberOfRetriesBeforeCircuitIsOpen: number;
+  maxNumberOfRetriesBeforeCircuitIsOpen?: number;
 
   /**
    * The retry backoff strategy from the {@link RetryIntervalStrategy | list of options}.
