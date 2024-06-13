@@ -1,4 +1,4 @@
-import { BaseError } from "../../@common/base-error";
+import { BaseError } from "@/src/@common/base-error";
 
 /**
  * Error class for the API calls that are timed out.

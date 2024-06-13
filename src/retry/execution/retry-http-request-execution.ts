@@ -1,8 +1,8 @@
 import axios from "axios";
-import { RetryIntervalStrategy } from "../models/retry-interval-options";
-import { RetryPolicyType } from "../models/retry-policy-type";
-import { computeRetryBackoffForStrategyInMilli as computeRetryBackoffForStrategyInMilli } from "../strategy/retry-backoff-strategy";
-import { doesResponseHaveStatusCodeBlockedForRetry } from "./utils/retry-utils";
+import { RetryIntervalStrategy } from "@/src/retry/models/retry-interval-options";
+import { RetryPolicyType } from "@/src/retry/models/retry-policy-type";
+import { computeRetryBackoffForStrategyInMilli as computeRetryBackoffForStrategyInMilli } from "@/src/retry/strategy/retry-backoff-strategy";
+import { doesResponseHaveStatusCodeBlockedForRetry } from "@/src/retry/execution/utils/retry-utils";
 
 /**
  * Executes the current HTTP request with a retry policy.

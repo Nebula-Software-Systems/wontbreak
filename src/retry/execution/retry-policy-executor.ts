@@ -1,8 +1,8 @@
-import { IPolicyExecutor } from "../../@common/policy-executor-interface";
-import { Result } from "../../@common/result";
-import { executeHttpRequestWithTimeoutPolicy } from "../../timeout/execution/timeout-http-request-execution";
-import { RetryPolicyType } from "../models/retry-policy-type";
-import executeHttpRequestWithRetryPolicy from "./retry-http-request-execution";
+import { IPolicyExecutor } from "@/src/@common/policy-executor-interface";
+import { Result } from "@/src/@common/result";
+import { executeHttpRequestWithTimeoutPolicy } from "@/src/timeout/execution/timeout-http-request-execution";
+import { RetryPolicyType } from "@/src/retry/models/retry-policy-type";
+import executeHttpRequestWithRetryPolicy from "@/src/retry/execution/retry-http-request-execution";
 
 /**
  * Policy executor for requests we want to retry.

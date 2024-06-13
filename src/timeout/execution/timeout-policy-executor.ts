@@ -1,7 +1,7 @@
-import { IPolicyExecutor } from "../../@common/policy-executor-interface";
-import { Result } from "../../@common/result";
-import { TimeoutPolicyType } from "../models/timeout-policy-type";
-import { executeHttpRequestWithTimeoutPolicy } from "./timeout-http-request-execution";
+import { IPolicyExecutor } from "@/src/@common/policy-executor-interface";
+import { Result } from "@/src/@common/result";
+import { TimeoutPolicyType } from "@/src/timeout/models/timeout-policy-type";
+import { executeHttpRequestWithTimeoutPolicy } from "@/src/timeout/execution/timeout-http-request-execution";
 
 /**
  * Policy executor for requests we want to attach a timeout to.

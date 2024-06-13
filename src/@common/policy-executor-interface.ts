@@ -1,4 +1,4 @@
-import { Result } from "./result";
+import { Result } from "@/src/@common/result";
 
 /**
  * Interface that defines the (timeout/retry/circuit-breaker) policy execution.

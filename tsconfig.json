@@ -1,5 +1,12 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/src/@common/*": ["src/@common/*"],
+            "@/src/retry/*": ["src/retry/*"],
+            "@/src/timeout/*": ["src/timeout/*"],
+            "@/src/circuit-breaker/*": ["src/circuit-breaker/*"],
+        },
         "strict": true,
         "noImplicitAny": true,
         "esModuleInterop": true,

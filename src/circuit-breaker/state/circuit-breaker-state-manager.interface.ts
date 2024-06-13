@@ -1,4 +1,4 @@
-import { CircuitState } from "../models/circuit-state";
+import { CircuitState } from "@/src/circuit-breaker/models/circuit-state";
 
 /**
  * Interface that defines how the circuit-breaker state machine works.
