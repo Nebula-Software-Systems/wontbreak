@@ -2,13 +2,13 @@
  * Executes an HTTP request with a timeout trigger.
  *
  * @param promise The HTTP request.
- * @param timeoutInSeconds The HTTP request timeout.
+ * @param timeoutInMilli The HTTP request timeout.
  *
  * @returns A promise resolved or rejected depending if the HTTP request succeded before the timeout happened (resolved) or not (rejected).
  */
 export function executeHttpRequestWithTimeoutPolicy(
   promise: Promise<any>,
-  timeoutInSeconds: number
+  timeoutInMilli: number
 ): Promise<any> {
   return Promise.race([
     promise,
@@ -16,9 +16,9 @@ export function executeHttpRequestWithTimeoutPolicy(
       setTimeout(
         () =>
           rejection(
-            `A timeout has occured. Timeout defined: ${timeoutInSeconds} seconds.`
+            `A timeout has occured. Timeout defined: ${timeoutInMilli} milliseconds.`
           ),
-        timeoutInSeconds * 1000
+        timeoutInMilli
       )
     ),
   ]);

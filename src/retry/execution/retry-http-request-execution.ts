@@ -1,7 +1,7 @@
 import axios from "axios";
 import { RetryIntervalStrategy } from "../models/retry-interval-options";
 import { RetryPolicyType } from "../models/retry-policy-type";
-import { computeRetryBackoffForStrategyInSeconds } from "../strategy/retry-backoff-strategy";
+import { computeRetryBackoffForStrategyInMilli as computeRetryBackoffForStrategyInMilli } from "../strategy/retry-backoff-strategy";
 import { doesResponseHaveStatusCodeBlockedForRetry } from "./utils/retry-utils";
 
 /**
@@ -52,14 +52,13 @@ async function executeHttpRequestWithRetry(
         retryPolicyType.retryIntervalStrategy ??
         RetryIntervalStrategy.Linear_With_Jitter;
 
-      const backoffRetryIntervalInSeconds =
-        computeRetryBackoffForStrategyInSeconds(
-          retryBackoffStrategy,
-          nextAttempt,
-          retryPolicyType.baseRetryDelayInSeconds
-        );
+      const backoffRetryIntervalInMilli = computeRetryBackoffForStrategyInMilli(
+        retryBackoffStrategy,
+        nextAttempt,
+        retryPolicyType.baseRetryDelayInMilli
+      );
 
-      await waitFor(backoffRetryIntervalInSeconds * 1000);
+      await waitFor(backoffRetryIntervalInMilli);
 
       try {
         return await axios({

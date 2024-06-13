@@ -7,7 +7,7 @@ const retryPolicyExecutor =
   PolicyExecutorFactory.createRetryHttpExecutor({
     maxNumberOfRetries: 3,
     retryIntervalStrategy: RetryIntervalStrategy.Constant,
-    baseRetryDelayInSeconds: 0.2,
+    baseRetryDelayInMilli: 300,
   });
 ```
 
@@ -27,21 +27,21 @@ This property reflects the backoff interval between retries. The default value f
 There are lots of [possible strategies](../../../src/retry/models/retry-interval-options.ts) to choose from.
 
 #### Constant
-The retry will happen every X seconds, being X defined by the value of seconds inserted in the optional property _baseRetryDelayInSeconds_.
+The retry will happen every X milliseconds, being X defined by the value of milliseconds inserted in the optional property _baseRetryDelayInMilli_.
 
-As an example, if you define _baseRetryDelayInSeconds_ as 0.5, retries are spaced in time in every 500 milliseconds. 
+As an example, if you define _baseRetryDelayInMilli_ as 500, retries are spaced in time in every 500 milliseconds. 
 
 #### Linear
-The interval here is computed based on the current retry attempt and the value specified in _baseRetryDelayInSeconds_.
+The interval here is computed based on the current retry attempt and the value specified in _baseRetryDelayInMilli_.
 
 The formula is:
 ```
-_baseRetryDelayInSeconds_ * next_retry_attempt
+_baseRetryDelayInMilli_ * next_retry_attempt
 ```
 
-Let's assume that _baseRetryDelayInSeconds_ is 1.
+Let's assume that _baseRetryDelayInMilli_ is 1000.
 
-When we try the request for the second time, and it fails, the next retry will happen after 3 seconds (next_retry_attempt = 3)
+When we try the request for the second time, and it fails, the next retry will happen after 2000 milliseconds (next_retry_attempt = 2)
 
 
 #### Linear With Jitter
@@ -55,7 +55,7 @@ To compute this we only use the next retry attempt value.
 
 This is computed based on a power of 2.
 
-For example, if the next retry is retry 2, then we amount of seconds that the next retry will happen on is 4 (2 to the power of 2).
+For example, if the next retry is retry 2, then we amount of milliseconds that the next retry will happen on is 4000 (2 to the power of 2 times 1000).
 
 
 #### Exponential With Jitter
@@ -64,14 +64,14 @@ This is pretty much the same as the _Exponential_ strategy with the caveat that 
 Currently, we don't have allow any external configuration of this jitter.
 
 
-### (optional) baseRetryDelayInSeconds
+### (optional) baseRetryDelayInMilli
 This is important when computing the _Constant_, _Linear_ and _Linear with Jitter_ backoff intervals.
 
-This acts as an initial seed for the backoff computations. If no value is specified, the default value of 1 second is assumed. 
+This acts as an initial seed for the backoff computations. If no value is specified, the default value of 1000 milliseconds is assumed. 
 
 
-### (optional) timeoutPerRetryInSeconds
-You can specify a timeout, in seconds, for your requests. Whenever this timeout happens a new retry will be triggered.
+### (optional) timeoutPerRetryInMilli
+You can specify a timeout, in milliseconds, for your requests. Whenever this timeout happens a new retry will be triggered.
 
 If no value is specified, the request will happen normally, meaning until a response is obtained from the server.
 

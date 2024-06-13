@@ -26,7 +26,7 @@ describe("Retry with constant backoff", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Constant,
-      baseRetryDelayInSeconds: 0.2,
+      baseRetryDelayInMilli: 200,
     });
 
     const httpRequest = () => {
@@ -56,7 +56,7 @@ describe("Retry with constant backoff", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Constant,
-      baseRetryDelayInSeconds: 0.2,
+      baseRetryDelayInMilli: 200,
     });
 
     //Act
@@ -101,11 +101,11 @@ describe("Retry with constant backoff with timeout on retry", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Constant,
-      baseRetryDelayInSeconds: 0.2,
-      timeoutPerRetryInSeconds: 0.3,
+      baseRetryDelayInMilli: 200,
+      timeoutPerRetryInMilli: 300,
     });
 
-    const httpRequest = createTimedOutRequest(axios.get("/complex"), 0.4);
+    const httpRequest = createTimedOutRequest(axios.get("/complex"), 400);
 
     //Act
     const httpResult =
@@ -124,8 +124,8 @@ describe("Retry with constant backoff with timeout on retry", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Constant,
-      baseRetryDelayInSeconds: 0.2,
-      timeoutPerRetryInSeconds: 0.4,
+      baseRetryDelayInMilli: 200,
+      timeoutPerRetryInMilli: 400,
     });
 
     //Act
@@ -199,7 +199,7 @@ describe("Retry with linear backoff", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Linear,
-      baseRetryDelayInSeconds: 0.2,
+      baseRetryDelayInMilli: 200,
     });
 
     //Act
@@ -244,10 +244,10 @@ describe("Retry with linear backoff with timeout on retry", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Linear,
-      timeoutPerRetryInSeconds: 0.3,
+      timeoutPerRetryInMilli: 300,
     });
 
-    const httpRequest = createTimedOutRequest(axios.get("/complex"), 0.6);
+    const httpRequest = createTimedOutRequest(axios.get("/complex"), 600);
 
     //Act
     const httpResult =
@@ -266,8 +266,8 @@ describe("Retry with linear backoff with timeout on retry", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Linear,
-      baseRetryDelayInSeconds: 0.2,
-      timeoutPerRetryInSeconds: 1,
+      baseRetryDelayInMilli: 200,
+      timeoutPerRetryInMilli: 1000,
     });
 
     //Act
@@ -311,7 +311,7 @@ describe("Retry with linear and jitter backoff", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Linear_With_Jitter,
-      baseRetryDelayInSeconds: 0.2,
+      baseRetryDelayInMilli: 200,
     });
 
     const httpRequest = () => {
@@ -341,7 +341,7 @@ describe("Retry with linear and jitter backoff", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Linear_With_Jitter,
-      baseRetryDelayInSeconds: 0.4,
+      baseRetryDelayInMilli: 400,
     });
 
     //Act
@@ -385,11 +385,11 @@ describe("Retry with linear and jitter backoff with timeout on retry", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Linear_With_Jitter,
-      baseRetryDelayInSeconds: 0.2,
-      timeoutPerRetryInSeconds: 0.3,
+      baseRetryDelayInMilli: 200,
+      timeoutPerRetryInMilli: 300,
     });
 
-    const httpRequest = createTimedOutRequest(axios.get("/complex"), 0.6);
+    const httpRequest = createTimedOutRequest(axios.get("/complex"), 600);
 
     //Act
     const httpResult =
@@ -408,8 +408,8 @@ describe("Retry with linear and jitter backoff with timeout on retry", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Linear_With_Jitter,
-      baseRetryDelayInSeconds: 0.4,
-      timeoutPerRetryInSeconds: 1,
+      baseRetryDelayInMilli: 400,
+      timeoutPerRetryInMilli: 1000,
     });
 
     //Act
@@ -525,10 +525,10 @@ describe("Retry with exponential backoff with timeout on retry", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Exponential,
-      timeoutPerRetryInSeconds: 0.3,
+      timeoutPerRetryInMilli: 300,
     });
 
-    const httpRequest = createTimedOutRequest(axios.get("/complex"), 0.6);
+    const httpRequest = createTimedOutRequest(axios.get("/complex"), 600);
 
     //Act
     const httpResult =
@@ -547,7 +547,7 @@ describe("Retry with exponential backoff with timeout on retry", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Exponential,
-      timeoutPerRetryInSeconds: 1,
+      timeoutPerRetryInMilli: 1000,
     });
 
     //Act
@@ -663,10 +663,10 @@ describe("Retry with exponential jitter backoff and timeout", () => {
     const retryPolicyExecutor = PolicyExecutorFactory.createRetryHttpExecutor({
       maxNumberOfRetries: 3,
       retryIntervalStrategy: RetryIntervalStrategy.Exponential_With_Jitter,
-      timeoutPerRetryInSeconds: 0.3,
+      timeoutPerRetryInMilli: 300,
     });
 
-    const httpRequest = createTimedOutRequest(axios.get("/complex"), 0.6);
+    const httpRequest = createTimedOutRequest(axios.get("/complex"), 600);
 
     //Act
     const httpResult =

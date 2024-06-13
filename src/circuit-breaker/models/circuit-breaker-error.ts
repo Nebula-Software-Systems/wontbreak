@@ -11,13 +11,13 @@ export class CircuitBreakerError extends BaseError {
   /**
    * Creates a {@link CircuitBreakerError | circuit open error}.
    *
-   * @param circuitOpenDurationInSeconds How long the circuit will remain open.
+   * @param circuitOpenDurationInMilli How long the circuit will remain open.
    *
    * @returns An instance of {@link CircuitBreakerError}.
    */
-  static createCircuitOpenError(circuitOpenDurationInSeconds: number) {
+  static createCircuitOpenError(circuitOpenDurationInMilli: number) {
     return new CircuitBreakerError(
-      `Your request could not be processed. The circuit has been opened for ${circuitOpenDurationInSeconds} seconds.`
+      `Your request could not be processed. The circuit has been opened for ${circuitOpenDurationInMilli} milliseconds.`
     );
   }
 }

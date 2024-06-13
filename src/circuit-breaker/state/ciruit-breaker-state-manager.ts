@@ -13,29 +13,29 @@ export class CircuitBreakerStateManager implements ICircuitBreakerStateManager {
 
   constructor(private circuitBreakerPolicy: CircuitBreakerPolicyType) {
     this.onOpen = () => {
-      const fn =
+      const onOpenFunc =
         this.circuitBreakerPolicy.onOpen ??
         (() => console.log("Circuit is now open."));
-      fn();
+      onOpenFunc();
       setTimeout(() => {
         this.onHalfOpen();
-      }, this.circuitBreakerPolicy.circuitOpenDurationInSeconds * 1000);
+      }, this.circuitBreakerPolicy.circuitOpenDurationInMilli);
       this.currentState = CircuitState.Opened;
     };
 
     this.onClose = () => {
-      const fn =
+      const onCloseFunc =
         this.circuitBreakerPolicy.onClose ??
         (() => console.log("Circuit is now closed."));
-      fn();
+      onCloseFunc();
       this.currentState = CircuitState.Closed;
     };
 
     this.onHalfOpen = () => {
-      const fn =
+      const OnHalfOpenFunc =
         this.circuitBreakerPolicy.onHalfOpen ??
         (() => console.log("Circuit is now half-open."));
-      fn();
+      OnHalfOpenFunc();
       this.currentState = CircuitState.Half_Opened;
     };
   }

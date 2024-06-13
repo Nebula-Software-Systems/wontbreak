@@ -7,33 +7,33 @@ import { RetryIntervalStrategy } from "../models/retry-interval-options";
  *
  * @param nextRetryAttempt The upcoming retry attempt number. Example: 2.
  *
- * @param baseSeconds = 1
+ * @param baseMilli = 1000
  * - Represents a constant of the retry backoff interval computation.
  * - This vaue is only useful when you chose the Constant strategy or any of the Linear strategies in {@link RetryIntervalStrategy}.
  *
  * @returns The interval to wait before the next retry.
  */
-export function computeRetryBackoffForStrategyInSeconds(
+export function computeRetryBackoffForStrategyInMilli(
   retryStrategy: RetryIntervalStrategy,
   nextRetryAttempt: number,
-  baseSeconds: number = 1
+  baseMilli: number = 1000
 ) {
   switch (retryStrategy) {
     case RetryIntervalStrategy.Constant: {
-      return baseSeconds;
+      return baseMilli;
     }
     case RetryIntervalStrategy.Linear: {
-      return baseSeconds * nextRetryAttempt;
+      return baseMilli * nextRetryAttempt;
     }
     case RetryIntervalStrategy.Exponential: {
-      return Math.pow(2, nextRetryAttempt);
+      return Math.pow(2, nextRetryAttempt) * 1000;
     }
     case RetryIntervalStrategy.Exponential_With_Jitter: {
-      return Math.pow(2, nextRetryAttempt) + Math.random();
+      return (Math.pow(2, nextRetryAttempt) + Math.random()) * 1000;
     }
     case RetryIntervalStrategy.Linear_With_Jitter:
     default: {
-      return baseSeconds * nextRetryAttempt + Math.random();
+      return baseMilli * nextRetryAttempt + Math.random();
     }
   }
 }

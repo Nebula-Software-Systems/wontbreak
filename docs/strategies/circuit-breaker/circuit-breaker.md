@@ -7,9 +7,9 @@ const circuitBreakerPolicyExecutor =
   PolicyExecutorFactory.createCircuitBreakerHttpExecutor({
       maxNumberOfRetriesBeforeCircuitIsOpen: 1,
       retryIntervalStrategy: RetryIntervalStrategy.Constant,
-      baseRetryDelayInSeconds: 0.5,
-      timeoutPerRetryInSeconds: 2,
-      circuitOpenDurationInSeconds: 3,
+      baseRetryDelayInMilli: 500,
+      timeoutPerRetryInMilli: 2000,
+      circuitOpenDurationInMilli: 3000,
       onClose: () => console.log("custom close"),
       onHalfOpen: () => console.log("custom half open"),
       onOpen: () => console.log("custom open"),
@@ -21,7 +21,7 @@ The _createCircuitBreakerHttpExecutor_ method takes a [configuration object](../
 Let's take a closer look at the fields.
 
 ### fields to compute retry strategy
-The fields mentioned here are: _maxNumberOfRetriesBeforeCircuitIsOpen_, _retryIntervalStrategy_, _baseRetryDelayInSeconds_, _timeoutPerRetryInSeconds_, _excludeRetriesOnStatusCodes_.
+The fields mentioned here are: _maxNumberOfRetriesBeforeCircuitIsOpen_, _retryIntervalStrategy_, _baseRetryDelayInMilli_, _timeoutPerRetryInMilli_, _excludeRetriesOnStatusCodes_.
 
 To understand these fields better, please refer to the [retry documentation](../retry/retry.md).
 
@@ -31,12 +31,12 @@ If no retry mechanism is wanted, just place _maxNumberOfRetriesBeforeCircuitIsOp
 
 A note about the _maxNumberOfRetriesBeforeCircuitIsOpen_ property. As the name suggests, after the amount of retries specified here, the circuit will be open and the circuit-breaker state machine will start.
 
-### circuitOpenDurationInSeconds
-Whenever the maximum amount of retries is reached, the circuit is going from the state _CLOSED_ to the state _OPENED_, and will remaing in such state for the amount of seconds specified here.
+### circuitOpenDurationInMilli
+Whenever the maximum amount of retries is reached, the circuit is going from the state _CLOSED_ to the state _OPENED_, and will remaing in such state for the amount of milliseconds specified here.
 
 As long as the circuit remains on this state, all requests made will be automatically rejects, with an error thrown under the _error_ property on the [result object](../../result/result.md).
 
-After _circuitOpenDurationInSeconds_, the state will transition to _HALF-OPEN_.
+After _circuitOpenDurationInMilli_, the state will transition to _HALF-OPEN_.
 
 ### custom state transition functions
 As states change, you might want to provide a custom state changing function. This function must return nothing (be void).

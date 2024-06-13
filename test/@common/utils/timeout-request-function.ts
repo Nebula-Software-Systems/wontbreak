@@ -1,8 +1,6 @@
 export function createTimedOutRequest(
   httpRequest: Promise<any>,
-  timeoutInSeconds: number
+  timeoutInMilli: number
 ): Promise<any> {
-  return new Promise(() =>
-    setTimeout(() => httpRequest, timeoutInSeconds * 1000)
-  );
+  return new Promise(() => setTimeout(() => httpRequest, timeoutInMilli));
 }
