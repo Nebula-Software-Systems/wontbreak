@@ -1,5 +1,5 @@
-import { DefaultRetryExcludedHttpStatusCodes } from "../../models/default-retry-excluded-http-status-codes";
-import { RetryPolicyType } from "../../models/retry-policy-type";
+import { DefaultRetryExcludedHttpStatusCodes } from "@/src/retry/models/default-retry-excluded-http-status-codes";
+import { RetryPolicyType } from "@/src/retry/models/retry-policy-type";
 
 export const blockedStatusCodesForRetry = (retryPolicy: RetryPolicyType) =>
   retryPolicy.excludeRetriesOnStatusCodes ??

@@ -1,4 +1,4 @@
-import { RetryIntervalStrategy } from "./retry-interval-options";
+import { RetryIntervalStrategy } from "@/src/retry/models/retry-interval-options";
 
 /**
  * Base type for configuring the {@link RetryPolicyExecutor}.

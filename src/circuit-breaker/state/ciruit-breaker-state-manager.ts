@@ -1,6 +1,6 @@
-import { CircuitBreakerPolicyType } from "../models/circuit-breaker-policy-type";
-import { CircuitState } from "../models/circuit-state";
-import { ICircuitBreakerStateManager } from "./circuit-breaker-state-manager.interface";
+import { CircuitBreakerPolicyType } from "@/src/circuit-breaker/models/circuit-breaker-policy-type";
+import { CircuitState } from "@/src/circuit-breaker/models/circuit-state";
+import { ICircuitBreakerStateManager } from "@/src/circuit-breaker/state/circuit-breaker-state-manager.interface";
 
 /**
  * State machine manager class for the circuit-breaker.

@@ -1,4 +1,4 @@
-import { RetryIntervalStrategy } from "../models/retry-interval-options";
+import { RetryIntervalStrategy } from "@/src/retry/models/retry-interval-options";
 
 /**
  * Computes the backoff interval for the next retry attempt.

@@ -1,9 +1,9 @@
-import { RetryPolicyType } from "./../retry/models/retry-policy-type";
-import { TimeoutPolicyType } from "./../timeout/models/timeout-policy-type";
-import { CircuitBreakerPolicyType } from "../circuit-breaker/models/circuit-breaker-policy-type";
-import { TimeoutPolicyExecutor } from "../timeout/execution/timeout-policy-executor";
-import { RetryPolicyExecutor } from "../retry/execution/retry-policy-executor";
-import { CircuitBreakerPolicyExecutor } from "../circuit-breaker/execution/circuit-breaker-executor";
+import { RetryPolicyType } from "@/src/retry/models/retry-policy-type";
+import { TimeoutPolicyType } from "@/src/timeout/models/timeout-policy-type";
+import { CircuitBreakerPolicyType } from "@/src/circuit-breaker/models/circuit-breaker-policy-type";
+import { TimeoutPolicyExecutor } from "@/src/timeout/execution/timeout-policy-executor";
+import { RetryPolicyExecutor } from "@/src/retry/execution/retry-policy-executor";
+import { CircuitBreakerPolicyExecutor } from "@/src/circuit-breaker/execution/circuit-breaker-executor";
 
 /**
  * Factory class to create resiliency policies.

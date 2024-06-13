@@ -1,7 +1,7 @@
-import { CircuitBreakerError } from "../circuit-breaker/models/circuit-breaker-error";
-import { RetryError } from "../retry/models/retry-error";
-import { TimeoutError } from "../timeout/models/timeout-error";
-import { BaseError } from "./base-error";
+import { CircuitBreakerError } from "@/src/circuit-breaker/models/circuit-breaker-error";
+import { RetryError } from "@/src/retry/models/retry-error";
+import { TimeoutError } from "@/src/timeout/models/timeout-error";
+import { BaseError } from "@/src/@common/base-error";
 
 /**
  * Class that defines the output of our execution policies and serves as the base response return.
@@ -61,9 +61,7 @@ export class Result<T> {
    *
    * @returns An instance of {@link Result} with the error field containing the {@link circuitOpenDurationInMilli} content.
    */
-  static createCircuitOpenedErrorResult<T>(
-    circuitOpenDurationInMilli: number
-  ) {
+  static createCircuitOpenedErrorResult<T>(circuitOpenDurationInMilli: number) {
     const circuitBreakerError = CircuitBreakerError.createCircuitOpenError(
       circuitOpenDurationInMilli
     );
