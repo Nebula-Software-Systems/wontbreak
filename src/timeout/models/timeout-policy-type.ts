@@ -8,4 +8,11 @@ export type TimeoutPolicyType = {
    * If no response is returned within this amount of time, a {@link Result}, with the error field filled with {@link TimeoutError}, is returned.
    */
   timeoutInMilli: number;
+
+  /**
+   * Callback to be executed if a timeout occurs.
+   *
+   * @returns void
+   */
+  onTimeout?: () => void;
 };
