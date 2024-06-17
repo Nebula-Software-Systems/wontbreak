@@ -44,6 +44,36 @@ describe("Timeout", () => {
     );
   });
 
+  test("rejection thrown when timeout occurs and custom onTimeout function executes", async () => {
+    //Arrange
+    const timeoutPolicyType = {
+      timeoutInMilli: 200,
+      onTimeout: () => {},
+    };
+
+    const timeoutPolicyExecutor =
+      PolicyExecutorFactory.createTimeoutHttpExecutor(timeoutPolicyType);
+
+    const spyOnTimeout = jest.spyOn(timeoutPolicyType, "onTimeout");
+
+    const httpRequest = createTimedOutRequest(axios.get("/complex"), 600);
+
+    //Act
+    const httpResult =
+      await timeoutPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        httpRequest
+      );
+
+    //Assert
+    expect(httpResult.data).toBeNull();
+    expect(httpResult.error).not.toEqual(null);
+    expect(httpResult.error?.reason).toBe("timeout");
+    expect(httpResult.error?.message).toBe(
+      "A timeout has occured. Timeout defined: 200 milliseconds."
+    );
+    expect(spyOnTimeout).toHaveBeenCalledTimes(1);
+  });
+
   test("http request completes successfully when no timeout happens", async () => {
     //Arrange
     const timeoutPolicyExecutor =

@@ -14,10 +14,9 @@ export class RetryPolicyExecutor implements IPolicyExecutor {
     try {
       const httpRequestToExecute = !this.retryPolicy.timeoutPerRetryInMilli
         ? httpRequest
-        : executeHttpRequestWithTimeoutPolicy(
-            httpRequest,
-            this.retryPolicy.timeoutPerRetryInMilli
-          );
+        : executeHttpRequestWithTimeoutPolicy(httpRequest, {
+            timeoutInMilli: this.retryPolicy.timeoutPerRetryInMilli,
+          });
 
       const { data } = await executeHttpRequestWithRetryPolicy(
         httpRequestToExecute,
