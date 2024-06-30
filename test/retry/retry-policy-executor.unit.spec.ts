@@ -819,3 +819,92 @@ describe("Retry with default value for retry attempts", () => {
     );
   }, 1200000);
 });
+
+describe("Retry with onRetry callback", () => {
+  let axiosMock;
+  beforeAll(() => {
+    axiosMock = new MockAdapter(axios);
+
+    axiosMock.onGet("/complex").reply(200, {
+      name: "Name",
+      age: 65,
+      address: {
+        street: "Street",
+        zipCode: "ZCode",
+      },
+    });
+  });
+
+  test("error thrown when number of retries exceeds", async () => {
+    //Arrange
+    const retryPolicy = {
+      maxNumberOfRetries: 5,
+      retryIntervalStrategy: RetryIntervalStrategy.Constant,
+      baseRetryDelayInMilli: 200,
+      onRetry: () => {},
+    };
+
+    const retryPolicyExecutor =
+      PolicyExecutorFactory.createRetryHttpExecutor(retryPolicy);
+
+    const spyOnRetry = jest.spyOn(retryPolicy, "onRetry");
+
+    const httpRequest = () => {
+      return new Promise((_, reject) => {
+        setTimeout(() => {
+          reject("You shall not pass!");
+        }, 300);
+      });
+    };
+
+    //Act
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        httpRequest()
+      );
+
+    //Assert
+    expect(httpResult.data).toBeNull();
+    expect(httpResult.error).not.toEqual(null);
+    expect(httpResult.error?.reason).toBe("retry");
+    expect(httpResult.error?.message).toBe(
+      "The number of retries (5) has exceeded."
+    );
+    expect(spyOnRetry).toHaveBeenCalledTimes(5);
+  }, 1200000);
+
+  test("http request completes successfully when no retries occur", async () => {
+    const retryPolicy = {
+      maxNumberOfRetries: 3,
+      retryIntervalStrategy: RetryIntervalStrategy.Constant,
+      baseRetryDelayInMilli: 200,
+      onRetry: () => {},
+    };
+
+    const retryPolicyExecutor =
+      PolicyExecutorFactory.createRetryHttpExecutor(retryPolicy);
+
+    const spyOnRetry = jest.spyOn(retryPolicy, "onRetry");
+
+    //Act
+    const httpResult =
+      await retryPolicyExecutor.ExecutePolicyAsync<ComplexObject>(
+        axios.get("/complex")
+      );
+
+    //Assert
+    expect(httpResult.data).not.toBeNull();
+    expect(JSON.stringify(httpResult.data)).toBe(
+      JSON.stringify({
+        name: "Name",
+        age: 65,
+        address: {
+          street: "Street",
+          zipCode: "ZCode",
+        },
+      })
+    );
+    expect(httpResult.error).toBeUndefined();
+    expect(spyOnRetry).toHaveBeenCalledTimes(0);
+  });
+});
