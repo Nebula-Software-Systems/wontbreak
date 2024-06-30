@@ -14,6 +14,8 @@ const timeoutPolicyExecutor =
 
 The _createTimeoutHttpExecutor_ method takes a [configuration object](../../../src/timeout/models/timeout-policy-type.ts)  to properly configure the timeout policy.
 
-_timeoutInMilli_: Whenever your request takes longer than the quantity specified in this property, a timeout error will be thrown under the _error_ property on the [result object](../../result/result.md).
+### timeoutInMilli
+Whenever your request takes longer than the quantity specified in this property, a timeout error will be thrown under the _error_ property on the [result object](../../result/result.md).
 
-(optional) _onTimeout_: Whenever a timeout occurs, this callback is executed.
+### (optional) onTimeout
+Whenever a timeout occurs, this callback is executed.

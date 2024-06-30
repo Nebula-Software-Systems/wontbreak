@@ -55,4 +55,11 @@ export type RetryPolicyType = {
    * @example [400, 404]
    */
   excludeRetriesOnStatusCodes?: number[];
+
+  /**
+   * Callback to be executed if a retry occurs.
+   *
+   * @returns void
+   */
+  onRetry?: () => void;
 };

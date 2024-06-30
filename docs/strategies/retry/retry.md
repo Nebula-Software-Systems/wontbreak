@@ -8,6 +8,7 @@ const retryPolicyExecutor =
     maxNumberOfRetries: 3,
     retryIntervalStrategy: RetryIntervalStrategy.Constant,
     baseRetryDelayInMilli: 300,
+    onRetry: () => { console.log("Retry happening.") }
   });
 ```
 
@@ -85,3 +86,7 @@ For example, if you get a 404 back now matter how much you try you'll always get
 
 If you don't specify anything here, our retry policy blocks retries for all 4XX, except 408.
 If you decide to override this default policy, then whenever the status code you provided here happens, a retry will not be allowed and an error is thrown.
+
+
+### (optional) onRetry
+Whenever a retry occurs, this callback is executed.

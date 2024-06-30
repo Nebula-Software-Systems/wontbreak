@@ -63,6 +63,8 @@ async function executeHttpRequestWithRetry(
       await waitFor(backoffRetryIntervalInMilli);
 
       try {
+        if (retryPolicyType.onRetry) retryPolicyType.onRetry();
+
         return await axios({
           method: error.config.method,
           url: error.config.url,
