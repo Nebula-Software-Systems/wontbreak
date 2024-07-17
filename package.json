@@ -164,7 +164,7 @@
     "p-try": "^2.2.0",
     "parse-json": "^5.2.0",
     "path-exists": "^5.0.0",
-    "path-is-absolute": "^1.0.1",
+    "path-is-absolute": "^2.0.0",
     "path-key": "^4.0.0",
     "path-parse": "^1.0.7",
     "picocolors": "^1.0.0",
