@@ -47,7 +47,7 @@
     "bser": "^2.1.1",
     "buffer-from": "^1.1.2",
     "callsites": "^4.1.0",
-    "camelcase": "^5.3.1",
+    "camelcase": "^8.0.0",
     "caniuse-lite": "^1.0.30001611",
     "chalk": "^5.3.0",
     "char-regex": "^2.0.1",
