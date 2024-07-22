@@ -185,7 +185,7 @@
     "shebang-regex": "^3.0.0",
     "signal-exit": "^3.0.7",
     "sisteransi": "^1.0.5",
-    "slash": "^3.0.0",
+    "slash": "^5.1.0",
     "source-map": "^0.7.4",
     "source-map-support": "^0.5.13",
     "sprintf-js": "^1.0.3",
