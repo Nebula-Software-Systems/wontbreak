@@ -194,7 +194,7 @@
     "string-width": "^4.2.3",
     "strip-ansi": "^7.1.0",
     "strip-bom": "^4.0.0",
-    "strip-final-newline": "^2.0.0",
+    "strip-final-newline": "^4.0.0",
     "strip-json-comments": "^5.0.1",
     "supports-color": "^9.4.0",
     "supports-preserve-symlinks-flag": "^1.0.0",
