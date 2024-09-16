@@ -183,7 +183,7 @@
     "semver": "^7.6.2",
     "shebang-command": "^2.0.0",
     "shebang-regex": "^3.0.0",
-    "signal-exit": "^3.0.7",
+    "signal-exit": "^4.1.0",
     "sisteransi": "^1.0.5",
     "slash": "^5.1.0",
     "source-map": "^0.7.4",
