@@ -93,7 +93,7 @@
     "has-flag": "^5.0.1",
     "hasown": "^2.0.2",
     "html-escaper": "^3.0.3",
-    "human-signals": "^7.0.0",
+    "human-signals": "^8.0.0",
     "import-local": "^3.1.0",
     "imurmurhash": "^0.1.4",
     "inflight": "^1.0.6",
