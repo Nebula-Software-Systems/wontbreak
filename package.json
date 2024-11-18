@@ -57,7 +57,7 @@
     "co": "^4.6.0",
     "collect-v8-coverage": "^1.0.2",
     "color-convert": "^2.0.1",
-    "color-name": "^1.1.4",
+    "color-name": "^2.0.0",
     "concat-map": "^0.0.2",
     "convert-source-map": "^2.0.0",
     "create-jest": "^29.7.0",
