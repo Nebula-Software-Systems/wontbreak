@@ -174,7 +174,7 @@
     "pretty-format": "^29.7.0",
     "prompts": "^2.4.2",
     "pure-rand": "^6.1.0",
-    "react-is": "^18.2.0",
+    "react-is": "^19.0.0",
     "require-directory": "^2.1.1",
     "resolve": "^1.22.8",
     "resolve-cwd": "^3.0.0",
